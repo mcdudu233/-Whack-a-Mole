@@ -6,7 +6,7 @@
 
 void debug(std::string msg) {
     if (DEBUG) {
-        std::cout << "debug >>" << msg << std::endl;
+        std::cout << "debug >> " << msg << std::endl;
     }
 }
 
