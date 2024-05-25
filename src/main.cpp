@@ -9,8 +9,8 @@
 void init_main_graph(int width, int height) {
     debug("create " + std::to_string(width) + "x" + std::to_string(height) + " window, radio is " +
           std::to_string(width / WIDTH) + "x" + std::to_string(height / HEIGHT) + ".");
-    // 创建绘图窗口
-    initgraph(width, height);
+    // 创建绘图窗口 允许双击
+    initgraph(width, height, EX_DBLCLKS);
     // 默认的分辨率为 800*600 如果不一样则缩放窗口
     setaspectratio(width / WIDTH, height / HEIGHT);
 }
