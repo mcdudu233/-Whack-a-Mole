@@ -7,7 +7,7 @@
 
 #include "iostream"
 
-// 璁剧疆鏄惁寮�鍚皟璇曡緭
+// 设置是否开启调试输
 #define DEBUG true
 #define INFO true
 #define ERROR true

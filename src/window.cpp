@@ -9,8 +9,18 @@
 void init_main_graph(int width, int height) {
     debug("create " + std::to_string(width) + "x" + std::to_string(height) + " window, radio is " +
           std::to_string(1.0 * width / WINDOW_WIDTH) + "x" + std::to_string(1.0 * height / WINDOW_HEIGHT) + ".");
-    // åˆ›å»ºç»˜å›¾çª—å£ å…è®¸åŒå‡»
+    // ´´½¨»æÍ¼´°¿Ú ÔÊĞíË«»÷
     initgraph(width, height, EX_DBLCLKS);
-    // é»˜è®¤çš„åˆ†è¾¨ç‡ä¸º 800*600 å¦‚æœä¸ä¸€æ ·åˆ™ç¼©æ”¾çª—å£
+    // Ä¬ÈÏµÄ·Ö±æÂÊÎª 800*600 Èç¹û²»Ò»ÑùÔòËõ·Å´°¿Ú
     setaspectratio(1.0 * width / WINDOW_WIDTH, 1.0 * height / WINDOW_HEIGHT);
+    // ÉèÖÃ±³¾°ÑÕÉ« ºÍ Í¸Ã÷
+    setbkcolor(WHITE);
+    setbkmode(TRANSPARENT);
+    // Çå¿Õ´°¿Ú
+    cleardevice();
+    // ×ÖÌåÎªºÚÌå ºÚÉ«
+    settextcolor(BLACK);
+    settextstyle(40, 0, "ºÚÌå");
+    outtextxy(100, 220, "¿ªÊ¼ÓÎÏ·");
+    outtextxy(20, 285, "ÉèÖÃ");
 }

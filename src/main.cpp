@@ -6,12 +6,12 @@
 
 int main() {
     debug("starting program.");
-    srand((unsigned) time(NULL));// åˆå§‹åŒ–éšæœºç§å­
+    srand((unsigned) time(NULL));// ³õÊ¼»¯Ëæ»úÖÖ×Ó
     init_main_graph(800, 600);
     mole m1, m2;
     m1.show();
     m2.show();
-    _getch();    // æŒ‰ä»»æ„é”®ç»§ç»­
-    closegraph();// å…³é—­ç»˜å›¾çª—å£
+    _getch();    // °´ÈÎÒâ¼ü¼ÌĞø
+    closegraph();// ¹Ø±Õ»æÍ¼´°¿Ú
     return 0;
 }

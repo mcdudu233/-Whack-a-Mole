@@ -5,7 +5,7 @@
 #ifndef WHACK_A_MOLE_WINDOW_H
 #define WHACK_A_MOLE_WINDOW_H
 
-// 默认分辨率大小 800*600
+// Ĭ�Ϸֱ��ʴ�С 800*600
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
