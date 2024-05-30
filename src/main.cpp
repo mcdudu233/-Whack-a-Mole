@@ -5,7 +5,6 @@
 #include "window.h"
 
 int main() {
-    // 娴嬭瘯缃戦〉IDE
     debug("starting program.");
     srand((unsigned) time(NULL));// 初始化随机种子
     init_main_graph(800, 600);
