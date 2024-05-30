@@ -10,5 +10,6 @@
 #define WINDOW_HEIGHT 600
 
 void init_main_graph(int width, int height);
+void init_main_listener();
 
 #endif//WHACK_A_MOLE_WINDOW_H

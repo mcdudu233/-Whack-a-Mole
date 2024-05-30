@@ -8,9 +8,10 @@ int main() {
     debug("starting program.");
     srand((unsigned) time(NULL));// 初始化随机种子
     init_main_graph(800, 600);
-    mole m1, m2;
-    m1.show();
-    m2.show();
+    init_main_listener();
+    //    mole m1, m2;
+    //    m1.show();
+    //    m2.show();
     _getch();    // 按任意键继续
     closegraph();// 关闭绘图窗口
     return 0;
