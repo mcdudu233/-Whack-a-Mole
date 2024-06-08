@@ -11,6 +11,11 @@ void init_main_graph(int width, int height) {
           std::to_string(1.0 * width / WINDOW_WIDTH) + "x" + std::to_string(1.0 * height / WINDOW_HEIGHT) + ".");
     // 创建绘图窗口 允许双击
     initgraph(width, height, EX_DBLCLKS);
+    //获取窗口句柄
+    HWND h = GetHWnd();
+    //修改窗口标题
+    SetWindowText(h, "打地鼠小游戏");
+
     // 默认的分辨率为 800*600 如果不一样则缩放窗口
     setaspectratio(1.0 * width / WINDOW_WIDTH, 1.0 * height / WINDOW_HEIGHT);
     // 设置背景颜色 和 透明
