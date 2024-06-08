@@ -5,11 +5,16 @@
 #ifndef WHACK_A_MOLE_RESOURCE_H
 #define WHACK_A_MOLE_RESOURCE_H
 
+#include "string"
+
 // 图片文件夹和后缀
 #define RES_PIC "../res/pics/"
 #define RES_PIC_SUF ".jpg"
 // 音频文件夹和后缀
 #define RES_SOUND "../res/sounds/"
 #define RES_SOUND_SUF ".wav"
+
+const char *getPic(std::string name);
+const char *getSound(std::string name);
 
 #endif//WHACK_A_MOLE_RESOURCE_H

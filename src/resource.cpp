@@ -3,12 +3,13 @@
 //
 
 #include "resource.h"
-#include "debug.h"
 
-std::string getPic(std::string name) {
-    return RES_PIC + name + RES_PIC_SUF;
+const char *getPic(std::string name) {
+    std::string file = RES_PIC + name + RES_PIC_SUF;
+    return file.c_str();
 }
 
-std::string getSound(std::string name) {
-    return RES_SOUND + name + RES_SOUND_SUF;
+const char *getSound(std::string name) {
+    std::string file = RES_SOUND + name + RES_SOUND_SUF;
+    return file.c_str();
 }

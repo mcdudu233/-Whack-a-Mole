@@ -13,7 +13,8 @@ public:
     sound();
     void playSound(sound_t snd);
     void closeSound(sound_t snd);
-    void cloaeSoundAll();
+    void closeSoundAll();
+    void setVolumn(int volumn);
 };
 
 

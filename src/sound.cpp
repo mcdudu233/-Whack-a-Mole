@@ -31,6 +31,10 @@ void sound::playSound(sound_t snd) {
 void sound::closeSound(sound_t snd) {
 }
 
-void sound::cloaeSoundAll() {
+void sound::closeSoundAll() {
     mciSendString("close bgm", nullptr, 0, nullptr);
+}
+
+void sound::setVolumn(int volumn) {
+    mciSendString(("setaudio NOWMUSIC volume to " + std::to_string(volumn)).c_str(), nullptr, 0, nullptr);
 }
