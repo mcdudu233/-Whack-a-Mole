@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "graphics.h"
 #include "resource.h"
+#include <conio.h>
 
 void drawButton(int x, int y, int width, int height, COLORREF color, const char *text, int textHeight, COLORREF textColor) {
     setfillcolor(color);
@@ -83,6 +84,7 @@ void settings_listener() {
     }
 }
 
+
 std::thread init_settings_graph() {
     // 清空窗口
     cleardevice();
@@ -92,6 +94,86 @@ std::thread init_settings_graph() {
     putimage(0, 0, &img);
     // TODO xb：做完以下内容以后删掉本行
     // 游戏难度设置
+    // 定义难度等级
+    enum Difficulty {
+        EASY,
+        NORMAL,
+        HARD
+    };
+
+    // 难度选择结构体
+    struct DifficultySelection {
+        int x, y;         // 难度选择位置
+        int width, height; // 难度选择尺寸
+        Difficulty currentDifficulty; // 当前选择的难度
+    };
+    settextstyle(16, 0, _T("黑体"));
+    settextcolor(BLACK);
+    // 难度选择初始化
+    DifficultySelection selection = { 100, 200, 200, 50, EASY };
+    setfillcolor(RGB(200, 200, 200));
+    fillrectangle(selection.x, selection.y, selection.x + selection.width, selection.y + selection.height);
+
+    // 绘制难度选项
+    settextcolor(BLACK);
+    TCHAR difficultyStrings[3][10] = {_T("简单"), _T("普通"), _T("困难")};
+    for (int i = 0; i < 3; i++) {
+        outtextxy(selection.x + 20, selection.y + 20 + i * 30, difficultyStrings[i]);
+    }
+
+    // 根据当前难度，绘制选择标记
+    switch (selection.currentDifficulty) {
+        case EASY:
+            outtextxy(selection.x + 20, selection.y + 20, _T("->"));
+        break;
+        case NORMAL:
+            outtextxy(selection.x + 20, selection.y + 50, _T("->"));
+        break;
+        case HARD:
+            outtextxy(selection.x + 20, selection.y + 80, _T("->"));
+        break;
+    }
+    // 处理难度选择
+    while (true) {
+        // 检测鼠标点击
+        ExMessage msg;
+        if (peekmessage(&msg, EM_MOUSE)) {
+            switch (msg.message) {
+                case WM_LBUTTONDOWN:
+                    // 根据鼠标点击位置切换难度
+                        int difficulty = (msg.x - selection.x) / 60; // 假设每个难度选项宽度为60像素
+                selection.currentDifficulty = (Difficulty)difficulty;
+                // 重新绘制难度选择
+                setfillcolor(RGB(200, 200, 200));
+                fillrectangle(selection.x, selection.y, selection.x + selection.width, selection.y + selection.height);
+
+                // 绘制难度选项
+                settextcolor(BLACK);
+                TCHAR difficultyStrings[3][10] = {_T("简单"), _T("普通"), _T("困难")};
+                for (int i = 0; i < 3; i++) {
+                    outtextxy(selection.x + 20, selection.y + 20 + i * 30, difficultyStrings[i]);
+                }
+
+                // 根据当前难度，绘制选择标记
+                switch (selection.currentDifficulty) {
+                    case EASY:
+                        outtextxy(selection.x + 20, selection.y + 20, _T("->"));
+                    break;
+                    case NORMAL:
+                        outtextxy(selection.x + 20, selection.y + 50, _T("->"));
+                    break;
+                    case HARD:
+                        outtextxy(selection.x + 20, selection.y + 80, _T("->"));
+                    break;
+                }
+                break;
+                    // 右键点击退出难度选择
+
+            }
+        }
+        
+    }
+
     // 分辨率设置
     // 音量设置
     // 返回按钮点击监听线程
