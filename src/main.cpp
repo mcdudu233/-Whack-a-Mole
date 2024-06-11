@@ -8,6 +8,7 @@ int main() {
     debug("starting program.");
     srand((unsigned) time(NULL));// 初始化随机种子
 
+    // 我叫倪宝成
     init_graph(800, 600);
     init_main_graph().join();
     //    mole m1, m2;
