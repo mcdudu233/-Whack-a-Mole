@@ -65,25 +65,35 @@ std::thread init_main_graph() {
     loadimage(&img, getPic("main"), 800, 600);
     putimage(0, 0, &img);
     // 绘制按钮
-    drawButton(280, 380, 220, 80, BUTTON_COLOR, "开始游戏", 40, RGB(255, 255, 255));
-    drawButton(20, 530, 100, 50, BUTTON_COLOR, "设置", 30, RGB(255, 255, 255));
-    drawButton(640, 530, 140, 50, BUTTON_COLOR, "退出游戏", 30, RGB(255, 255, 255));
+    drawButton(280, 380, 220, 80, BUTTON_MAIN_COLOR, "开始游戏", 40, RGB(255, 255, 255));
+    drawButton(20, 530, 100, 50, BUTTON_MAIN_COLOR, "设置", 30, RGB(255, 255, 255));
+    drawButton(640, 530, 140, 50, BUTTON_MAIN_COLOR, "退出游戏", 30, RGB(255, 255, 255));
     // 返回按钮点击监听线程
     return std::thread(main_listener);
 }
 
 void settings_listener() {
+    MOUSEMSG m;
+    int x, y;
+    while (true) {
+        m = GetMouseMsg();
+        x = m.x;
+        y = m.y;
+        // TODO 监听设置的鼠标事件
+    }
+}
+
+std::thread init_settings_graph() {
     // 清空窗口
     cleardevice();
     // 加载主窗口图片
     IMAGE img;
     loadimage(&img, getPic("main"), 800, 600);
     putimage(0, 0, &img);
+    // TODO xb：做完以下内容以后删掉本行
+    // 游戏难度设置
     // 分辨率设置
     // 音量设置
-}
-
-std::thread init_settings_graph() {
     // 返回按钮点击监听线程
     return std::thread(settings_listener);
 }
