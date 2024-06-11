@@ -41,7 +41,7 @@ void main_listener() {
         x = m.x;
         y = m.y;
         if (m.mkLButton || m.mkMButton || m.mkRButton) {
-            if (x >= 280 && x <= 500 && y >= 380 && y <= 460) {
+            if (x >= BUTTON_MAIN_STARTGAME_X && x <= BUTTON_MAIN_STARTGAME_XX && y >= BUTTON_MAIN_STARTGAME_Y && y <= BUTTON_MAIN_STARTGAME_YY) {
                 debug("start button is clicked.");
                 init_game_graph().join();
                 break;
@@ -65,7 +65,7 @@ std::thread init_main_graph() {
     loadimage(&img, getPic("main"), 800, 600);
     putimage(0, 0, &img);
     // 绘制按钮
-    drawButton(280, 380, 220, 80, BUTTON_MAIN_COLOR, "开始游戏", 40, BUTTON_MAIN_TEXTCOLOR);
+    drawButton(BUTTON_MAIN_STARTGAME_X, BUTTON_MAIN_STARTGAME_Y, BUTTON_MAIN_STARTGAME_WIDTH, BUTTON_MAIN_STARTGAME_HEIGHT, BUTTON_MAIN_COLOR, "开始游戏", 40, BUTTON_MAIN_TEXTCOLOR);
     drawButton(20, 530, 100, 50, BUTTON_MAIN_COLOR, "设置", 30, BUTTON_MAIN_TEXTCOLOR);
     drawButton(640, 530, 140, 50, BUTTON_MAIN_COLOR, "退出游戏", 30, BUTTON_MAIN_TEXTCOLOR);
     // 返回按钮点击监听线程
