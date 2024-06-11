@@ -86,7 +86,7 @@ void settings_listener() {
 std::thread init_settings_graph() {
     // 清空窗口
     cleardevice();
-    // 加载主窗口图片
+    // 加载设置图片
     IMAGE img;
     loadimage(&img, getPic("main"), 800, 600);
     putimage(0, 0, &img);
@@ -99,9 +99,23 @@ std::thread init_settings_graph() {
 }
 
 void game_listener() {
+    MOUSEMSG m;
+    int x, y;
+    while (true) {
+        m = GetMouseMsg();
+        x = m.x;
+        y = m.y;
+        // TODO 监听游戏中的鼠标事件
+    }
 }
 
 std::thread init_game_graph() {
+    // 清空窗口
+    cleardevice();
+    // 加载游戏图片
+    IMAGE img;
+    loadimage(&img, getPic("game"), 800, 600);
+    putimage(0, 0, &img);
     // 返回按钮点击监听线程
     return std::thread(game_listener);
 }
