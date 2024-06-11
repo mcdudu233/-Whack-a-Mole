@@ -65,9 +65,9 @@ std::thread init_main_graph() {
     loadimage(&img, getPic("main"), 800, 600);
     putimage(0, 0, &img);
     // 绘制按钮
-    drawButton(280, 380, 220, 80, RGB(0xC3, 0x4A, 0x36), "开始游戏", 40, RGB(255, 255, 255));
-    drawButton(20, 530, 100, 50, RGB(0xC3, 0x4A, 0x36), "设置", 30, RGB(255, 255, 255));
-    drawButton(640, 530, 140, 50, RGB(0xC3, 0x4A, 0x36), "退出游戏", 30, RGB(255, 255, 255));
+    drawButton(280, 380, 220, 80, BUTTON_COLOR, "开始游戏", 40, RGB(255, 255, 255));
+    drawButton(20, 530, 100, 50, BUTTON_COLOR, "设置", 30, RGB(255, 255, 255));
+    drawButton(640, 530, 140, 50, BUTTON_COLOR, "退出游戏", 30, RGB(255, 255, 255));
     // 返回按钮点击监听线程
     return std::thread(main_listener);
 }

@@ -11,6 +11,8 @@
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
+#define BUTTON_COLOR RGB(0xC3, 0x4A, 0x36)
+
 void init_graph(int width, int height);
 std::thread init_main_graph();
 std::thread init_settings_graph();
