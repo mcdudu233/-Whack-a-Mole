@@ -7,6 +7,7 @@
 #include "graphics.h"
 #include "resource.h"
 #include <conio.h>
+#include<iostream>
 
 void drawButton(int x, int y, int width, int height, COLORREF color, const char *text, int textHeight, COLORREF textColor) {
     setfillcolor(color);
@@ -83,6 +84,65 @@ void settings_listener() {
         // TODO 监听设置的鼠标事件
     }
 }
+// 难度选择函数
+void nanduchoice () {
+    int progressBarWidth = 400; // 进度条宽度
+    int progressBarHeight = 20; // 进度条高度
+    int x = 200;
+    int y = 100;
+
+    int difficulty = 0; // 难度初始值
+    int maxDifficulty = 10; // 最大难度
+
+    while (true) {
+        // 绘制进度条背景
+        setcolor(BLACK);
+        rectangle(x, y, x + progressBarWidth, y + progressBarHeight);
+        setfillstyle(SOLID_FILL, LIGHTGRAY);
+        bar(x + 1, y + 1, x + progressBarWidth - 1, y + progressBarHeight - 1);
+
+        // 绘制当前进度
+        setfillstyle(SOLID_FILL, BLUE);
+        bar(x + 1, y + 1, x + 1 + (difficulty * (progressBarWidth - 2) / maxDifficulty), y + progressBarHeight - 1);
+
+        // 显示难度文本
+        setcolor(BLACK);
+        settextstyle(30, 0, _T("楷体"));
+        char text[20];
+        sprintf(text, "难度: %d", difficulty);
+        outtextxy(x, y - 30, text);
+
+    }
+}
+void fenbianlvchoice() {
+    int sliderWidth = 400; // 滑动条宽度
+    int sliderHeight = 20; // 滑动条高度
+    int x=200;
+    int y=200;
+    int minValue = 800 ; // 分辨率最小值
+    int maxValue = 1920; // 分辨率最大值
+    int resolution = minValue; // 当前分辨率
+
+    while (true) {
+        // 绘制滑动条背景
+        setcolor(BLACK);
+        rectangle(x, y, x + sliderWidth, y + sliderHeight);
+        setfillstyle(SOLID_FILL, LIGHTGRAY);
+        bar(x + 1, y + 1, x + sliderWidth - 1, y + sliderHeight - 1);
+
+        // 绘制滑块
+        int sliderX = x + (resolution - minValue) * (sliderWidth - 10) / (maxValue - minValue);
+        setfillstyle(SOLID_FILL, BLUE);
+        bar(sliderX, y, sliderX + 10, y + sliderHeight);
+
+        // 显示当前分辨率文本
+        setcolor(BLACK);
+        settextstyle(30, 0, _T("楷体"));
+        char text[20];
+        sprintf(text, "分辨率: %d", resolution);
+        outtextxy(x, y - 30, text);
+    }
+}
 
 
 std::thread init_settings_graph() {
@@ -93,88 +153,18 @@ std::thread init_settings_graph() {
     loadimage(&img, getPic("main"), 800, 600);
     putimage(0, 0, &img);
     // TODO xb：做完以下内容以后删掉本行
+    // 设置标题
+    settextstyle(30, 0, _T("楷体"));
+    settextcolor(WHITE);
+    RECT r = {0, 0, 800, 50};
+    drawtext(_T("设置"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     // 游戏难度设置
-    // 定义难度等级
-    enum Difficulty {
-        EASY,
-        NORMAL,
-        HARD
-    };
-
-    // 难度选择结构体
-    struct DifficultySelection {
-        int x, y;         // 难度选择位置
-        int width, height; // 难度选择尺寸
-        Difficulty currentDifficulty; // 当前选择的难度
-    };
-    settextstyle(16, 0, _T("黑体"));
-    settextcolor(BLACK);
-    // 难度选择初始化
-    DifficultySelection selection = { 100, 200, 200, 50, EASY };
-    setfillcolor(RGB(200, 200, 200));
-    fillrectangle(selection.x, selection.y, selection.x + selection.width, selection.y + selection.height);
-
-    // 绘制难度选项
-    settextcolor(BLACK);
-    TCHAR difficultyStrings[3][10] = {_T("简单"), _T("普通"), _T("困难")};
-    for (int i = 0; i < 3; i++) {
-        outtextxy(selection.x + 20, selection.y + 20 + i * 30, difficultyStrings[i]);
-    }
-
-    // 根据当前难度，绘制选择标记
-    switch (selection.currentDifficulty) {
-        case EASY:
-            outtextxy(selection.x + 20, selection.y + 20, _T("->"));
-        break;
-        case NORMAL:
-            outtextxy(selection.x + 20, selection.y + 50, _T("->"));
-        break;
-        case HARD:
-            outtextxy(selection.x + 20, selection.y + 80, _T("->"));
-        break;
-    }
-    // 处理难度选择
-    while (true) {
-        // 检测鼠标点击
-        ExMessage msg;
-        if (peekmessage(&msg, EM_MOUSE)) {
-            switch (msg.message) {
-                case WM_LBUTTONDOWN:
-                    // 根据鼠标点击位置切换难度
-                        int difficulty = (msg.x - selection.x) / 60; // 假设每个难度选项宽度为60像素
-                selection.currentDifficulty = (Difficulty)difficulty;
-                // 重新绘制难度选择
-                setfillcolor(RGB(200, 200, 200));
-                fillrectangle(selection.x, selection.y, selection.x + selection.width, selection.y + selection.height);
-
-                // 绘制难度选项
-                settextcolor(BLACK);
-                TCHAR difficultyStrings[3][10] = {_T("简单"), _T("普通"), _T("困难")};
-                for (int i = 0; i < 3; i++) {
-                    outtextxy(selection.x + 20, selection.y + 20 + i * 30, difficultyStrings[i]);
-                }
-
-                // 根据当前难度，绘制选择标记
-                switch (selection.currentDifficulty) {
-                    case EASY:
-                        outtextxy(selection.x + 20, selection.y + 20, _T("->"));
-                    break;
-                    case NORMAL:
-                        outtextxy(selection.x + 20, selection.y + 50, _T("->"));
-                    break;
-                    case HARD:
-                        outtextxy(selection.x + 20, selection.y + 80, _T("->"));
-                    break;
-                }
-                break;
-                    // 右键点击退出难度选择
-
-            }
-        }
-        
-    }
-
+    nanduchoice();
     // 分辨率设置
+    fenbianlvchoice();
+
+
+
     // 音量设置
     // 返回按钮点击监听线程
     return std::thread(settings_listener);
