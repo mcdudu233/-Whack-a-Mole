@@ -59,14 +59,17 @@ void game::initializeHoles() {
     // 根据难度计算行列
     unsigned int rows = 1 + (int) (diff / 5.0F);
     unsigned int cols = rows;
-    unsigned int gapX = 80;
+    /*unsigned int gapX = (800-100*rows)/7*(rows+1);
+    unsigned int gapY = (600-50*cols)/6*(cols+1);*/
+    unsigned int gapX = 40;
     unsigned int gapY = 30;
+
 
     holes.resize(rows, std::vector<Hole>(cols));
     for (unsigned int i = 0; i < rows; i++) {
         for (unsigned int j = 0; j < cols; j++) {
-            unsigned int x = 100 + i * (100 + gapX);
-            unsigned int y = 100 + j * (50 + gapY);
+            unsigned int x = WINDOW_WIDTH/2-(rows*100+(rows-1)*gapX)/2 + i * (100 + gapX);
+            unsigned int y = WINDOW_HEIGHT/2-(cols*50+(cols-1)*gapY)/2 + j * (50 + gapY);
             holes[i][j] = {x, y, 100, 50, mole(x, y)};
             debug(std::to_string(x));
             debug(std::to_string(y));
