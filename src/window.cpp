@@ -47,11 +47,11 @@ void main_listener() {
         if (m.mkLButton || m.mkMButton || m.mkRButton) {
             if (x >= BUTTON_MAIN_STARTGAME_X && x <= BUTTON_MAIN_STARTGAME_XX && y >= BUTTON_MAIN_STARTGAME_Y && y <= BUTTON_MAIN_STARTGAME_YY) {
                 debug("start button is clicked.");
-                init_game_graph().join();
+                init_game_graph();
                 break;
             } else if (x >= 20 && x <= 120 && y >= 530 && y <= 580) {
                 debug("settings button is clicked.");
-                init_settings_graph().join();
+                init_settings_graph();
                 break;
             } else if (x >= 640 && x <= 780 && y >= 530 && y <= 580) {
                 debug("exit button is clicked.");
@@ -61,19 +61,19 @@ void main_listener() {
     }
 }
 
-std::thread init_main_graph() {
+void init_main_graph() {
     // 清空窗口
     cleardevice();
     // 加载主窗口图片
     IMAGE img;
-    loadimage(&img, getPic("main"), 800, 600);
+    loadimage(&img, getPic("main").c_str(), 800, 600);
     putimage(0, 0, &img);
     // 绘制按钮
     drawButton(BUTTON_MAIN_STARTGAME_X, BUTTON_MAIN_STARTGAME_Y, BUTTON_MAIN_STARTGAME_WIDTH, BUTTON_MAIN_STARTGAME_HEIGHT, BUTTON_MAIN_COLOR, "开始游戏", 40, BUTTON_MAIN_TEXTCOLOR);
     drawButton(20, 530, 100, 50, BUTTON_MAIN_COLOR, "设置", 30, BUTTON_MAIN_TEXTCOLOR);
     drawButton(640, 530, 140, 50, BUTTON_MAIN_COLOR, "退出游戏", 30, BUTTON_MAIN_TEXTCOLOR);
     // 返回按钮点击监听线程
-    return std::thread(main_listener);
+    main_listener();
 }
 
 void settings_listener() {
@@ -173,37 +173,9 @@ void drawResolutionDropdown() {
             }
         }
     }
-// 绘制音量调节界面
-void drawVolumeControl() {
-    // 绘制背景
-    setbkcolor(WHITE);
-    cleardevice();
-
-    // 绘制音量调节标题
-    settextstyle(20, 10, "楷体");
-    outtextxy(300, 100, "音量调节");
-
-    // 绘制滑动条背景
-    rectangle(200, 300, 600, 350);
-
-    // 计算当前滑块的位置
-    int sliderPos = 200 + volume * 400 / 100;
-
-    // 绘制滑动条当前值
-    setfillcolor(LIGHTGRAY);
-    solidrectangle(200, 300, sliderPos, 350);
-
-    // 绘制滑块
-    setfillcolor(BLUE);
-    solidrectangle(sliderPos - 5, 290, sliderPos + 5, 360);
-
-    // 显示当前音量值
-    char volStr[20];
-    sprintf(volStr, "音量: %d%%", volume);
-    outtextxy(350, 400, volStr);
 }
 
-std::thread init_settings_graph() {
+void init_settings_graph() {
         // 清空窗口
         cleardevice();
         // 加载设置图片
@@ -224,18 +196,18 @@ std::thread init_settings_graph() {
         rectangle(50, 200, 250, 250);
         outtextxy(120, 215, "简单");
 
-        rectangle(50, 300, 250, 350);
-        outtextxy(120, 315, "中等");
+    rectangle(50, 300, 250, 350);
+    outtextxy(120, 315, "中等");
 
-        rectangle(50, 400, 250, 450);
-        outtextxy(120, 415, "困难");
+    rectangle(50, 400, 250, 450);
+    outtextxy(120, 415, "困难");
 
         // 分辨率设置
         drawResolutionDropdown();
     // 音量设置
 
     // 返回按钮点击监听线程
-    return std::thread(settings_listener);
+    settings_listener();
 }
 
 
@@ -250,13 +222,20 @@ void game_listener() {
     }
 }
 
-std::thread init_game_graph() {
+void init_game_graph() {
     // 清空窗口
     cleardevice();
+    // 加载音效 随机选择一首
+    closeSoundAll();
+    if (rand() % 2 == 1) {
+        playSound(GAMING1);
+    } else {
+        playSound(GAMING2);
+    }
     // 加载游戏图片
     IMAGE img;
     loadimage(&img, getPic("game"), 800, 600);
     putimage(0, 0, &img);
     // 返回按钮点击监听线程
-    return std::thread(game_listener);
+    game_listener();
 }
