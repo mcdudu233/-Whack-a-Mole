@@ -6,16 +6,15 @@
 #define WHACK_A_MOLE_SOUND_H
 
 typedef enum { MAIN,
-               GAMING } sound_t;
+               GAMING1,
+               GAMING2,
+               HIT } sound;
 
-class sound {
-public:
-    sound();
-    void playSound(sound_t snd);
-    void closeSound(sound_t snd);
-    void closeSoundAll();
-    void setVolumn(int volumn);
-};
+void initSound();
+void playSound(sound snd);
+void closeSound(sound snd);
+void closeSoundAll();
+void setVolumn(int volumn);
 
 
 #endif//WHACK_A_MOLE_SOUND_H
