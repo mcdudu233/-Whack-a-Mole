@@ -82,68 +82,9 @@ void settings_listener() {
         x = m.x;
         y = m.y;
         // TODO 监听设置的鼠标事件
-    }
-}
-// 难度选择函数
-void nanduchoice () {
-    int progressBarWidth = 400; // 进度条宽度
-    int progressBarHeight = 20; // 进度条高度
-    int x = 200;
-    int y = 100;
-
-    int difficulty = 0; // 难度初始值
-    int maxDifficulty = 10; // 最大难度
-
-    while (true) {
-        // 绘制进度条背景
-        setcolor(BLACK);
-        rectangle(x, y, x + progressBarWidth, y + progressBarHeight);
-        setfillstyle(SOLID_FILL, LIGHTGRAY);
-        bar(x + 1, y + 1, x + progressBarWidth - 1, y + progressBarHeight - 1);
-
-        // 绘制当前进度
-        setfillstyle(SOLID_FILL, BLUE);
-        bar(x + 1, y + 1, x + 1 + (difficulty * (progressBarWidth - 2) / maxDifficulty), y + progressBarHeight - 1);
-
-        // 显示难度文本
-        setcolor(BLACK);
-        settextstyle(30, 0, _T("楷体"));
-        char text[20];
-        sprintf(text, "难度: %d", difficulty);
-        outtextxy(x, y - 30, text);
 
     }
 }
-void fenbianlvchoice() {
-    int sliderWidth = 400; // 滑动条宽度
-    int sliderHeight = 20; // 滑动条高度
-    int x=200;
-    int y=200;
-    int minValue = 800 ; // 分辨率最小值
-    int maxValue = 1920; // 分辨率最大值
-    int resolution = minValue; // 当前分辨率
-
-    while (true) {
-        // 绘制滑动条背景
-        setcolor(BLACK);
-        rectangle(x, y, x + sliderWidth, y + sliderHeight);
-        setfillstyle(SOLID_FILL, LIGHTGRAY);
-        bar(x + 1, y + 1, x + sliderWidth - 1, y + sliderHeight - 1);
-
-        // 绘制滑块
-        int sliderX = x + (resolution - minValue) * (sliderWidth - 10) / (maxValue - minValue);
-        setfillstyle(SOLID_FILL, BLUE);
-        bar(sliderX, y, sliderX + 10, y + sliderHeight);
-
-        // 显示当前分辨率文本
-        setcolor(BLACK);
-        settextstyle(30, 0, _T("楷体"));
-        char text[20];
-        sprintf(text, "分辨率: %d", resolution);
-        outtextxy(x, y - 30, text);
-    }
-}
-
 
 std::thread init_settings_graph() {
     // 清空窗口
@@ -155,13 +96,24 @@ std::thread init_settings_graph() {
     // TODO xb：做完以下内容以后删掉本行
     // 设置标题
     settextstyle(30, 0, _T("楷体"));
-    settextcolor(WHITE);
     RECT r = {0, 0, 800, 50};
     drawtext(_T("设置"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-    // 游戏难度
-    nanduchoice();
-    // 分辨率设置
-    fenbianlvchoice();
+    // 绘制难度选择标题
+    settextstyle(30, 0, "楷体");
+    setbkcolor(BLACK);
+    outtextxy(100, 150, "游戏难度:");
+
+    // 绘制难度按钮
+    settextstyle(20, 10, "楷体");
+    rectangle(50, 200, 250, 250);
+    outtextxy(120, 215, "简单");
+
+    rectangle(50, 300, 250, 350);
+    outtextxy(120, 315, "中等");
+
+    rectangle(50, 400, 250, 450);
+    outtextxy(120, 415, "困难");
+
 
 
 
