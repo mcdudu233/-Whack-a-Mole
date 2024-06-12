@@ -72,5 +72,6 @@ void closeSoundAll() {
 }
 
 void setVolumn(int volumn) {
+    debug("sound volume to " + std::to_string(volumn));
     mciSendString(("setaudio NOWMUSIC volume to " + std::to_string(volumn)).c_str(), nullptr, 0, nullptr);
 }
