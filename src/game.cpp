@@ -4,11 +4,19 @@
 
 #include "game.h"
 #include "debug.h"
+#include "easyx.h"
+#include "resource.h"
 #include "window.h"
 
+IMAGE IMG_HOLE;
+
+
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0) {
+    // 加载所需图片
+    loadimage(&IMG_HOLE, getPicPNG("hole").c_str(), 100, 50);
+
     initializeHoles();
-    spawnMoles();
+    //spawnMoles();
 }
 
 game::~game() {
@@ -49,15 +57,20 @@ float game::getDifficultyFactor() {
 void game::initializeHoles() {
     float diff = getDifficultyFactor();// 获取难度因子
     // 根据难度计算行列
-    unsigned int rows = 1 + (int) (diff / 5);
+    unsigned int rows = 1 + (int) (diff / 5.0F);
     unsigned int cols = rows;
-    unsigned int gapX = WINDOW_WIDTH / rows;
-    unsigned int gapY = WINDOW_HEIGHT / cols;
+    unsigned int gapX = 80;
+    unsigned int gapY = 30;
 
     holes.resize(rows, std::vector<Hole>(cols));
-    for (unsigned int i = 0; i < rows; i += gapX) {
-        for (unsigned int j = 0; j < cols; j += gapY) {
-            holes[i][j] = {i, j, 100, 100, mole(i, j)};
+    for (unsigned int i = 0; i < rows; i++) {
+        for (unsigned int j = 0; j < cols; j++) {
+            unsigned int x = 100 + i * (100 + gapX);
+            unsigned int y = 100 + j * (50 + gapY);
+            holes[i][j] = {x, y, 100, 50, mole(x, y)};
+            debug(std::to_string(x));
+            debug(std::to_string(y));
+            putimage(x, y, &IMG_HOLE);
         }
     }
 }
