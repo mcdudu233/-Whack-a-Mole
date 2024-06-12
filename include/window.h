@@ -21,8 +21,8 @@
 
 
 void init_graph(int width, int height);
-std::thread init_main_graph();
-std::thread init_settings_graph();
-std::thread init_game_graph();
+void init_main_graph();
+void init_settings_graph();
+void init_game_graph();
 
 #endif//WHACK_A_MOLE_WINDOW_H

@@ -77,22 +77,19 @@ std::thread init_main_graph() {
 }
 
 void settings_listener() {
-    MOUSEMSG m;		// 定义消息变量
+    ExMessage m;		// 定义消息变量
     int x, y;
     while (true) {
         // 获取一条鼠标或按键消息
-        m = GetMouseMsg();
+        m = getmessage(EX_MOUSE | EX_KEY);
         x = m.x;
         y = m.y;
         // TODO 监听设置的鼠标事件
-        // 函数声明
         void drawResolutionDropdown();
         void handleMouseClick(int x, int y);
         void drawOptionsList(int startX, int startY, int width, int height);
-        void drawVolumeControl();
-        void handleMouseDrag(int x);
-        switch(m.uMsg) {
-            case WM_LBUTTONDOWN:   //  左键单击选择难度
+        switch(m.message) {
+            case WM_LBUTTONDOWN:
             {
                 if(x>=50&&x<=250&&y>=200&&y<=250) {
                     // 简单模式
@@ -105,15 +102,10 @@ void settings_listener() {
                 }
             }
 
-            case WM_RBUTTONDOWN: // 邮件单击选择分辨率
+        case WM_RBUTTONDOWN:
             {
                 handleMouseClick(m.x, m.y);
                 drawResolutionDropdown(); // 更新界面显示
-
-            }
-            case (WM_LBUTTONDOWN&&WM_MOUSEMOVE): {
-                handleMouseDrag(m.x);
-                drawVolumeControl(); // 更新界面显示
 
             }
         }
@@ -183,36 +175,34 @@ void drawResolutionDropdown() {
     }
 // 绘制音量调节界面
 void drawVolumeControl() {
+    // 绘制背景
+    setbkcolor(WHITE);
     cleardevice();
+
     // 绘制音量调节标题
-    settextstyle(30, 0, "楷体");
-    outtextxy(310, 230, "音量调节");
+    settextstyle(20, 10, "楷体");
+    outtextxy(300, 100, "音量调节");
 
     // 绘制滑动条背景
-    rectangle(350, 300, 750, 350);
+    rectangle(200, 300, 600, 350);
 
     // 计算当前滑块的位置
-    int sliderPos = 350 + volume * 400 / 100;
+    int sliderPos = 200 + volume * 400 / 100;
 
     // 绘制滑动条当前值
-    setfillcolor(GREEN);
-    solidrectangle(350, 300, sliderPos, 350);
+    setfillcolor(LIGHTGRAY);
+    solidrectangle(200, 300, sliderPos, 350);
 
     // 绘制滑块
-    setfillcolor(RED);
+    setfillcolor(BLUE);
     solidrectangle(sliderPos - 5, 290, sliderPos + 5, 360);
 
     // 显示当前音量值
     char volStr[20];
     sprintf(volStr, "音量: %d%%", volume);
-    outtextxy(310, 380, volStr);
+    outtextxy(350, 400, volStr);
 }
-// 处理鼠标拖动事件
-void handleMouseDrag(int x) {
-    if (x < 350) x = 350;
-    if (x > 750) x = 750;
-    volume = (x - 350) * 100 / 400;
-}
+
 std::thread init_settings_graph() {
         // 清空窗口
         cleardevice();
@@ -242,8 +232,7 @@ std::thread init_settings_graph() {
 
         // 分辨率设置
         drawResolutionDropdown();
-        // 音量设置
-        drawVolumeControl();
+    // 音量设置
 
     // 返回按钮点击监听线程
     return std::thread(settings_listener);

@@ -13,15 +13,16 @@
 
 void initSound() {
     // 初始化所有音乐资源
-    mciSendString(("open " + std::string(getSound("bgm_main")) + " alias main").c_str(), nullptr, 0, nullptr);
-    mciSendString(("open " + std::string(getSound("bgm_game1")) + " alias gaming1").c_str(), nullptr, 0, nullptr);
-    mciSendString(("open " + std::string(getSound("bgm_game2")) + " alias gaming2").c_str(), nullptr, 0, nullptr);
-    mciSendString(("open " + std::string(getSound("hit")) + " alias hit").c_str(), nullptr, 0, nullptr);
+    mciSendString(("open " + getSound("bgm_main") + " alias main").c_str(), nullptr, 0, nullptr);
+    mciSendString(("open " + getSound("bgm_game1") + " alias gaming1").c_str(), nullptr, 0, nullptr);
+    mciSendString(("open " + getSound("bgm_game2") + " alias gaming2").c_str(), nullptr, 0, nullptr);
+    mciSendString(("open " + getSound("hit") + " alias hit").c_str(), nullptr, 0, nullptr);
     // music是文件的相对路径
     // alias是将文件名music简称为bgm
 }
 
 void playSound(sound snd) {
+    debug("play sound: ");
     switch (snd) {
         case MAIN:
             mciSendString("play main repeat", nullptr, 0, nullptr);
@@ -59,6 +60,7 @@ void closeSound(sound snd) {
             error("no sound resources: " + std::to_string(snd));
             break;
     }
+    initSound();
 }
 
 void closeSoundAll() {
@@ -66,6 +68,7 @@ void closeSoundAll() {
     mciSendString("close gaming1", nullptr, 0, nullptr);
     mciSendString("close gaming2", nullptr, 0, nullptr);
     mciSendString("close hit", nullptr, 0, nullptr);
+    initSound();
 }
 
 void setVolumn(int volumn) {
