@@ -8,9 +8,9 @@
 
 class mole {
 private:
-    int x;
-    int y;
-    bool visible;
+    unsigned int x;
+    unsigned int y;
+    bool visible;// ÊÇ·ñ³öÏÖ
 
 public:
     mole();
@@ -20,6 +20,7 @@ public:
     bool setX(int x);
     bool setY(int y);
     bool show();
+    bool isShowed();
 };
 
 

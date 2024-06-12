@@ -31,6 +31,10 @@ bool mole::show() {
     return true;
 }
 
+bool mole::isShowed() {
+    return this->visible;
+}
+
 int mole::getX() const {
     return this->x;
 }
