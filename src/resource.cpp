@@ -5,7 +5,16 @@
 #include "resource.h"
 
 std::string getPic(std::string name) {
-    std::string file = RES_PIC + name + RES_PIC_SUF;
+    return getPicJPG(name);
+}
+
+std::string getPicJPG(std::string name) {
+    std::string file = RES_PIC + name + RES_PIC_JPG;
+    return file;
+}
+
+std::string getPicPNG(std::string name) {
+    std::string file = RES_PIC + name + RES_PIC_PNG;
     return file;
 }
 
