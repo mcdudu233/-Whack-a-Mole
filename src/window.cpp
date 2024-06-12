@@ -80,6 +80,7 @@ void init_main_graph() {
     main_listener();
 }
 
+IMAGE tmp;
 void settings_listener() {
     MOUSEMSG m;		// 定义消息变量
     int x, y;
@@ -98,20 +99,58 @@ void settings_listener() {
             {
                 if(x>=50&&x<=250&&y>=200&&y<=250) {
                     // 简单模式
+                    settextstyle(30, 0, "楷体");
+                    settextcolor(BLACK);
+                    outtextxy(160, 100, "简单");
+                    break;
                 }
                 else if(x>=50&&x<=250&&y>=300&&y<=350) {
                     // 普通模式
+                    settextstyle(30, 0, "楷体");
+                    settextcolor(BLACK);
+                    outtextxy(160, 100, "普通");
+                    break;
                 }
                 else if(x>=50&&x<=250&&y>=400&&y<=450) {
                     // 困难模式
-                }else if (x >= 640 && x <= 780 && y >= 530 && y <= 580) {
+                    settextstyle(30, 0, "楷体");
+                    settextcolor(BLACK);
+                    outtextxy(160, 100, "困难");
+                    break;
+                }else if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
                     init_main_graph(); // 返回主界面
+                    break;
+                }else if(x>=310&&x<=480&&y>=150&&y<=230) {
+                    settextstyle(30, 0, "楷体");
+                    settextcolor(BLACK);
+                    outtextxy(480, 100, "800×600");
+                    init_graph(800,600);
+                    break;
+                }else if(x>=310&&x<=480&&y>=230&&y<=280) {
+                    settextstyle(30, 0, "楷体");
+                    settextcolor(BLACK);
+                    outtextxy(480, 100, "1280×720");
+                    init_graph(1280,720);
+                    break;
+                }else if(x>=500&&x<=670&&y>=150&&y<=200) {
+                    settextstyle(30, 0, "楷体");
+                    settextcolor(BLACK);
+                    outtextxy(480, 100, "1020×768");
+                    init_graph(1020,768);
+                    break;
+                }else if(x>=500&&x<=670&&y>=230&&y<=280) {
+                    settextstyle(30, 0, "楷体");
+                    settextcolor(BLACK);
+                    outtextxy(480, 100, "1920×1080");
+                    init_graph(1920,1080);
+                    break;
                 }
             }
 
             case (WM_LBUTTONDOWN&&WM_MOUSEMOVE): {
                 handleMouseDrag(m.x,m.y);
                 drawVolumeControl(); // 更新界面显示
+                break;
 
             }
         }
@@ -120,9 +159,9 @@ void settings_listener() {
 
 // 全局变量，记录当前的音量值
 int volume = 50;                                            // 初始音量值（0-100）
+
 // 绘制音量调节界面
 void drawVolumeControl() {
-
     // 绘制音量调节标题
     settextstyle(30, 0, "楷体");
     outtextxy(310, 320, "音量调节");
@@ -149,10 +188,11 @@ void drawVolumeControl() {
 }
 // 处理鼠标拖动事件
 void handleMouseDrag(int x,int y) {
-    if(y>=290&y<=360&x>=340&x<=760) {
+    if(y>=350&&y<=420&&x>=340&&x<=760) {
         if (x < 350) x = 350;
         if (x > 750) x = 750;
         volume = (x - 350) * 100 / 400;
+        putimage(350,360,&tmp);
     }
 
 
@@ -165,22 +205,22 @@ void init_settings_graph() {
     IMAGE img;
     loadimage(&img, getPic("main").c_str(), 800, 600);
     putimage(0, 0, &img);
+    getimage(&tmp,350,360,400,150);
     // TODO xb：做完以下内容以后删掉本行
     // 设置标题
     settextstyle(30, 0, _T("楷体"));
     RECT r = {0, 0, 800, 50};
     drawtext(_T("设置"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     // 设置返回按键
-    drawButton(640, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
+    drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 绘制难度选择标题
     settextstyle(30, 0, "楷体");
     settextcolor(BLACK);
-    outtextxy(75, 100, "游戏难度:");
+    outtextxy(25, 100, "游戏难度:");
     // 绘制难度按钮
     settextstyle(20, 10, "楷体");
     rectangle(50, 200, 250, 250);
     outtextxy(120, 215, "简单");
-
     rectangle(50, 300, 250, 350);
     outtextxy(120, 315, "中等");
 
@@ -205,6 +245,7 @@ void init_settings_graph() {
     // 1920×1080模块
     rectangle(500, 150, 670, 200);
     outtextxy(540, 160, "1020×768");
+
 
     // 音量设置
     drawVolumeControl();
