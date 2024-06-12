@@ -158,7 +158,7 @@ std::thread init_settings_graph() {
     settextcolor(WHITE);
     RECT r = {0, 0, 800, 50};
     drawtext(_T("设置"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-    // 游戏难度设置
+    // 游戏难度
     nanduchoice();
     // 分辨率设置
     fenbianlvchoice();
