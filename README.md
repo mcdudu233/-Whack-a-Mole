@@ -25,3 +25,11 @@
 `res`：图片和音乐资源的目录
 
 ---
+
+### 项目源码
+
+[GitHub - mcdudu233/Whack-a-Mole: 基于easyx库的打地鼠游戏](https://github.com/mcdudu233/Whack-a-Mole)
+
+[dudu233 / Whack a Mole · GitLab](https://gitlab.dorm.mcso.top/dudu233/whack-a-mole)
+
+---
