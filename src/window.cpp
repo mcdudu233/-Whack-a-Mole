@@ -80,40 +80,46 @@ void init_main_graph() {
 }
 
 void settings_listener() {
-    ExMessage m;// 定义消息变量
+    MOUSEMSG m;		// 定义消息变量
     int x, y;
     while (true) {
         // 获取一条鼠标或按键消息
-        m = getmessage(EX_MOUSE | EX_KEY);
+        m = GetMouseMsg();
         x = m.x;
         y = m.y;
         // TODO 监听设置的鼠标事件
-        void drawResolutionDropdown();
-        void handleMouseClick(int x, int y);
+        // 函数声明
         void drawOptionsList(int startX, int startY, int width, int height);
-        switch (m.message) {
-            case WM_LBUTTONDOWN: {
-                if (x >= 50 && x <= 250 && y >= 200 && y <= 250) {
+        void drawVolumeControl();
+        void handleMouseDrag(int x,int y);
+        switch(m.uMsg) {
+            case WM_LBUTTONDOWN:   //  左键单击
+            {
+                if(x>=50&&x<=250&&y>=200&&y<=250) {
                     // 简单模式
                 }
-                if (x >= 50 && x <= 250 && y >= 300 && y <= 350) {
+                else if(x>=50&&x<=250&&y>=300&&y<=350) {
                     // 普通模式
                 }
-                if (x >= 50 && x <= 250 && y >= 400 && y <= 450) {
+                else if(x>=50&&x<=250&&y>=400&&y<=450) {
                     // 困难模式
+                }else if (x >= 640 && x <= 780 && y >= 530 && y <= 580) {
+                    init_main_graph(); // 返回主界面
                 }
             }
 
-            case WM_RBUTTONDOWN: {
-                handleMouseClick(m.x, m.y);
-                drawResolutionDropdown();// 更新界面显示
+            case (WM_LBUTTONDOWN&&WM_MOUSEMOVE): {
+                handleMouseDrag(m.x,m.y);
+                drawVolumeControl(); // 更新界面显示
+
             }
         }
+        }
     }
-}
+
 // 全局变量
 int selectedResolutionIndex = 0;
-std::vector<int> resolutions = {640, 800, 1024, 1280, 1920};// 分辨率列表
+std::vector<std::pair<int, int>> resolutions = {{640, 480}, {800, 600}, {1024, 768}, {1280, 720}, {1920, 1080}}; // 常用分辨率列表
 int volume = 50;                                            // 初始音量值（0-100）
 // 绘制选项列表
 void drawOptionsList(int startX, int startY, int width, int height) {
@@ -133,46 +139,67 @@ void drawOptionsList(int startX, int startY, int width, int height) {
         }
     }
 }
+
+// 绘制音量调节界面
+void drawVolumeControl() {
+
+    // 绘制音量调节标题
+    settextstyle(30, 0, "楷体");
+    outtextxy(310, 230, "音量调节");
+
+    // 绘制滑动条背景
+    rectangle(350, 300, 750, 350);
+
+    // 计算当前滑块的位置
+    int sliderPos = 350 + volume * 400 / 100;
+
+    // 绘制滑动条当前值
+    setfillcolor(YELLOW);
+    solidrectangle(350, 300, sliderPos, 350);
+
+    // 绘制滑块
+    setfillcolor(WHITE);
+    solidrectangle(sliderPos - 5, 300, sliderPos + 5, 350);
+
+    // 显示当前音量值
+    char volStr[20];
+    sprintf(volStr, "音量: %d%%", volume);
+    setVolumn(volume);
+    outtextxy(310, 380, volStr);
+}
+// 处理鼠标拖动事件
+void handleMouseDrag(int x,int y) {
+    if(y>=290&y<=360&x>=340&x<=760) {
+        if (x < 350) x = 350;
+        if (x > 750) x = 750;
+        volume = (x - 350) * 100 / 400;
+    }
+
+
+}
 // 绘制分辨率选择界面
-void drawResolutionDropdown() {
-    // 绘制选择框
-    setlinecolor(BLUE);
-    rectangle(500, 80, 750, 150);
-    settextstyle(30, 0, "楷体");
-    outtextxy(310, 100, "分辨率选择");
+void drawResolutionMenu() {
+    // 绘制背景
+    setbkcolor(WHITE);
+    cleardevice();
 
-    // 绘制当前选择的分辨率
-    settextstyle(30, 0, "楷体");
-    char resStr[20];
-    sprintf(resStr, "%d x %d", resolutions[selectedResolutionIndex], resolutions[selectedResolutionIndex]);
-    outtextxy(550, 100, resStr);
-    // 如果列表被展开，绘制选项列表
-    static bool isListVisible = false;
-    if (isListVisible) {
-        drawOptionsList(500, 80, 250, 70);
-    }
-}
-// 处理鼠标点击事件
-void handleMouseClick(int x, int y) {
-    static bool isListVisible = false;
-    if (x >= 500 && x <= 750 && y >= 80 && y <= 150) {
-        isListVisible = !isListVisible;// 切换列表显示状态
-        drawResolutionDropdown();
-        return;
-    }
+    // 绘制标题
+    settextstyle(20, 10, "楷体");
+    outtextxy(300, 100, "选择分辨率");
 
-    if (isListVisible) {
-        for (size_t i = 0; i < resolutions.size(); ++i) {
-            if (x >= 500 && x <= 750 && y >= 80 + i * 30 && y <= 130 + i * 30) {
-                selectedResolutionIndex = i;
-                isListVisible = false;// 点击后关闭列表
-                drawResolutionDropdown();
-                break;
-            }
+    // 绘制分辨率选项
+    settextstyle(20, 10, "楷体");
+    int y = 200;
+    for (size_t i = 0; i < resolutions.size(); ++i) {
+        char resStr[20];
+        sprintf(resStr, "%d x %d", resolutions[i].first, resolutions[i].second);
+        outtextxy(300, y, resStr);
+        if (i == selectedResolutionIndex) {
+            rectangle(295, y - 5, 505, y + 20);
         }
+        y += 30;
     }
 }
-
 void init_settings_graph() {
     // 清空窗口
     cleardevice();
@@ -185,6 +212,8 @@ void init_settings_graph() {
     settextstyle(30, 0, _T("楷体"));
     RECT r = {0, 0, 800, 50};
     drawtext(_T("设置"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    // 设置返回按键
+    drawButton(640, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 绘制难度选择标题
     settextstyle(30, 0, "楷体");
     settextcolor(BLACK);
@@ -201,8 +230,9 @@ void init_settings_graph() {
     outtextxy(120, 415, "困难");
 
     // 分辨率设置
-    drawResolutionDropdown();
+
     // 音量设置
+    drawVolumeControl();
 
     // 返回按钮点击监听线程
     settings_listener();
