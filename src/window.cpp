@@ -117,55 +117,34 @@ void settings_listener() {
         }
     }
 
-// 全局变量
-int selectedResolutionIndex = 0;
-std::vector<std::pair<int, int>> resolutions = {{640, 480}, {800, 600}, {1024, 768}, {1280, 720}, {1920, 1080}}; // 常用分辨率列表
+// 全局变量，记录当前的音量值
 int volume = 50;                                            // 初始音量值（0-100）
-// 绘制选项列表
-void drawOptionsList(int startX, int startY, int width, int height) {
-    setfillcolor(WHITE);
-    setlinecolor(BLUE);
-    solidrectangle(startX, startY, startX + width, startY + height);
-    settextstyle(30, 0, "楷体");
-
-    for (size_t i = 0; i < resolutions.size(); ++i) {
-        char resStr[20];
-        sprintf(resStr, "%d x %d", resolutions[i], resolutions[i]);
-        outtextxy(startX + 10, startY + 10 + i * 30, resStr);
-        if (i == selectedResolutionIndex) {
-            setfillcolor(LIGHTGRAY);
-            solidrectangle(startX + 5, startY + 5 + i * 30, startX + width - 5, startY + 30 + i * 30);
-            setfillcolor(WHITE);
-        }
-    }
-}
-
 // 绘制音量调节界面
 void drawVolumeControl() {
 
     // 绘制音量调节标题
     settextstyle(30, 0, "楷体");
-    outtextxy(310, 230, "音量调节");
+    outtextxy(310, 320, "音量调节");
 
     // 绘制滑动条背景
-    rectangle(350, 300, 750, 350);
+    rectangle(350, 360, 750, 410);
 
     // 计算当前滑块的位置
     int sliderPos = 350 + volume * 400 / 100;
 
     // 绘制滑动条当前值
     setfillcolor(YELLOW);
-    solidrectangle(350, 300, sliderPos, 350);
+    solidrectangle(350, 360, sliderPos, 410);
 
     // 绘制滑块
     setfillcolor(WHITE);
-    solidrectangle(sliderPos - 5, 300, sliderPos + 5, 350);
+    solidrectangle(sliderPos - 5, 360, sliderPos + 5, 410);
 
     // 显示当前音量值
     char volStr[20];
     sprintf(volStr, "音量: %d%%", volume);
     setVolumn(volume);
-    outtextxy(310, 380, volStr);
+    outtextxy(310, 420, volStr);
 }
 // 处理鼠标拖动事件
 void handleMouseDrag(int x,int y) {
@@ -177,29 +156,7 @@ void handleMouseDrag(int x,int y) {
 
 
 }
-// 绘制分辨率选择界面
-void drawResolutionMenu() {
-    // 绘制背景
-    setbkcolor(WHITE);
-    cleardevice();
 
-    // 绘制标题
-    settextstyle(20, 10, "楷体");
-    outtextxy(300, 100, "选择分辨率");
-
-    // 绘制分辨率选项
-    settextstyle(20, 10, "楷体");
-    int y = 200;
-    for (size_t i = 0; i < resolutions.size(); ++i) {
-        char resStr[20];
-        sprintf(resStr, "%d x %d", resolutions[i].first, resolutions[i].second);
-        outtextxy(300, y, resStr);
-        if (i == selectedResolutionIndex) {
-            rectangle(295, y - 5, 505, y + 20);
-        }
-        y += 30;
-    }
-}
 void init_settings_graph() {
     // 清空窗口
     cleardevice();
@@ -230,6 +187,23 @@ void init_settings_graph() {
     outtextxy(120, 415, "困难");
 
     // 分辨率设置
+    // 绘制分辨率选择标题
+    settextstyle(30, 0, "楷体");
+    settextcolor(BLACK);
+    outtextxy(310, 100, "分辨率选择:");
+    // 绘制分辨率选择按钮
+    settextstyle(30, 10, "楷体");
+    rectangle(310, 150, 480, 200);
+    outtextxy(350, 160, "800×600");
+    //800*600选择模块
+    rectangle(310, 230, 480, 280);
+    outtextxy(350, 240, "1280×720");
+    //1280*720模块
+    rectangle(500, 230, 670, 280);
+    outtextxy(540, 240, "1920×1080");
+    // 1920×1080模块
+    rectangle(500, 150, 670, 200);
+    outtextxy(540, 160, "1020×768");
 
     // 音量设置
     drawVolumeControl();
