@@ -12,9 +12,9 @@
 #define RES_PIC_SUF ".jpg"
 // 音频文件夹和后缀
 #define RES_SOUND "../res/sounds/"
-#define RES_SOUND_SUF ".wav"
+#define RES_SOUND_SUF ".mp3"
 
-const char *getPic(std::string name);
-const char *getSound(std::string name);
+std::string getPic(std::string name);
+std::string getSound(std::string name);
 
 #endif//WHACK_A_MOLE_RESOURCE_H
