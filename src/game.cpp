@@ -9,7 +9,7 @@
 #include "resource.h"
 #include "thread"
 #include "window.h"
-
+IMAGE tmp;
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), moles(0), destroyed(false) {
     // 加载图片资源
     initResource();
@@ -185,6 +185,10 @@ void game::scoreListener() {
             settextstyle(30, 0, "楷体");
             settextcolor(BLACK);
             outtextxy(160, 10, this->level);
+            // 输出当前得分
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 50, this->moles);
             // 输出当前得分
             settextstyle(30, 0, "楷体");
             settextcolor(BLACK);
