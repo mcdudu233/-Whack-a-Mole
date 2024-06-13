@@ -16,9 +16,8 @@ private:
     IMAGE last;  //上一个图片
 
 private:
-    void delay(int milliseconds);// 延时函数
-    void comeAndBack();          // 探头和缩回去
-    void hit();                  // 被击中特效
+    void comeAndBack();// 探头和缩回去
+    void hit();        // 被击中特效
 
 public:
     mole();

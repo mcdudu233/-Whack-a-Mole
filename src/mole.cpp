@@ -26,10 +26,6 @@ mole::~mole() {
     // 释放内存
 }
 
-void mole::delay(int milliseconds) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
-}
-
 // 探头并且缩回去
 void mole::comeAndBack() {
     this->visible = true;

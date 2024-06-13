@@ -21,6 +21,8 @@
 #define BUTTON_MAIN_STARTGAME_XX (BUTTON_MAIN_STARTGAME_X + BUTTON_MAIN_STARTGAME_WIDTH)
 #define BUTTON_MAIN_STARTGAME_YY (BUTTON_MAIN_STARTGAME_Y + BUTTON_MAIN_STARTGAME_HEIGHT)
 
+
+void delay(int milliseconds);
 MOUSEMSG mouseMessage();
 void init_graph(int width, int height);
 void init_main_graph();

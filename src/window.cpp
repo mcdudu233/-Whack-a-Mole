@@ -11,6 +11,10 @@
 #include "sound.h"
 #include "vector"
 
+void delay(int milliseconds) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+}
+
 // 根据缩放无阻塞的获取鼠标信息
 MOUSEMSG mouseLast;
 MOUSEMSG mouseMessage() {

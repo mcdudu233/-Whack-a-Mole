@@ -9,10 +9,6 @@
 #include "resource.h"
 #include "window.h"
 
-void game::delay(int milliseconds) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
-}
-
 IMAGE tmp_4;
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), time(10), moles(0), destroyed(false) {
     // 加载图片资源
@@ -122,6 +118,7 @@ void game::hitListener() {
                 }
             }
         }
+        delay(10);
     }
 }
 
@@ -132,8 +129,8 @@ void game::hammerListener() {
     int x, y, last_x, last_y;
     while (!destroyed) {
         m = mouseMessage();
-        x = m.x;
-        y = m.y;
+        x = m.x - 50;
+        y = m.y - 50;
 
         // 还原之前的状态
         if (tmp == nullptr) {
@@ -152,6 +149,8 @@ void game::hammerListener() {
         } else {
             putImage(x, y, IMG_HAMMER);
         }
+
+        delay(10);
     }
 }
 
