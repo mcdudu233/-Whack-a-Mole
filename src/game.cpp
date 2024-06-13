@@ -87,8 +87,23 @@ void game::spawnHoles() {
 void game::spawnMoles() {
     for (auto &row: holes) {
         for (auto &hole: row) {
-            debug("show");
             hole.mole.show();
+        }
+    }
+    MOUSEMSG m;
+    int x, y;
+    while (!destroyed) {
+        m = GetMouseMsg();
+        if (m.mkLButton) {
+            x = m.x;
+            y = m.y;
+            for (auto &row: holes) {
+                for (auto &hole: row) {
+                    if (hole.mole.isHited(x, y)) {
+                        debug("hited");
+                    }
+                }
+            }
         }
     }
 }
