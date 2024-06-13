@@ -336,9 +336,7 @@ void init_game_graph() {
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 开始关卡
     game game(1, HARD);
-    outtextxy(10,90,"当前分数:");
 
-    game game(20, HARD);
     // 返回按钮点击监听线程
     game_listener(&game);
 }
