@@ -7,33 +7,33 @@
 #include "easyx.h"
 #include "graphics.h"
 #include "resource.h"
-#include "thread"
 #include "window.h"
 
-game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), moles(0), destroyed(false) {
+void game::delay(int milliseconds) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+}
+
+game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), time(10), moles(0), destroyed(false) {
     // 加载图片资源
     initResource();
 
     // 生成地鼠洞和地鼠
     spawnHoles();
-    std::thread moleListener(&game::spawnMoles, this);
-    moleListener.detach();
-    std::thread hitListener(&game::hitMoles, this);
-    hitListener.detach();
+    moleThread = new std::thread(&game::spawnMoles, this);
+    hitThread = new std::thread(&game::hitListener, this);
 
     // 跟踪锤子
-    std::thread hammerListener(&game::hammerListener, this);
-    hammerListener.detach();
+    hammerThread = new std::thread(&game::hammerListener, this);
 
     // 数据刷新
-    std::thread scoreListener(&game::scoreListener, this);
-    scoreListener.detach();
+    scoreThread = new std::thread(&game::scoreListener, this);
+
+    // 关卡结束
+    endThread = new std::thread(&game::endListener, this);
 }
 
 game::~game() {
-    // 关闭所有线程
-    this->destroyed = true;
-    // 如果有需要清理的资源，在这里进行清理
+    destroy();
 }
 
 // 根据关卡等级和难度获得难度因子
@@ -97,33 +97,32 @@ void game::spawnMoles() {
         for (auto &row: holes) {
             for (auto &hole: row) {
                 if (rand() < (int) (getDifficultyFactor() * 100.0F)) {
-                    debug("show mole");
                     hole.mole.show();
                 }
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        delay(50);
     }
 }
 
 // 随机生成地鼠
-void game::hitMoles() {
+void game::hitListener() {
     MOUSEMSG m;
     int x, y;
     while (!destroyed) {
+        debug("run1");
         m = GetMouseMsg();
-        if (m.mkLButton) {
-            int width = getwidth();
-            int height = getheight();
-            x = ((m.x) * 800) / width;
-            y = ((m.y) * 600) / height;
-            for (auto &row: holes) {
-                for (auto &hole: row) {
-                    if (hole.mole.isHited(x, y)) {
-                        debug("mole hited");
-                        // 每击中一个地鼠得5分
-                        score += 5;
-                    }
+        debug("run2");
+        int width = getwidth();
+        int height = getheight();
+        x = ((m.x) * 800) / width;
+        y = ((m.y) * 600) / height;
+        for (auto &row: holes) {
+            for (auto &hole: row) {
+                if (m.mkLButton && hole.mole.isHited(x, y)) {
+                    debug("mole hited, now score:" + std::to_string(this->score));
+                    // 每击中一个地鼠得5分
+                    score += 5;
                 }
             }
         }
@@ -166,7 +165,24 @@ void game::hammerListener() {
 void game::scoreListener() {
     while (!destroyed) {
         // 每隔100ms刷新一次
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        delay(100);
+    }
+}
+
+// 游戏时间
+void game::endListener() {
+    while (!destroyed) {
+        // 每1s检测一次
+        delay(1000);
+        this->time--;
+        debug("now time:" + std::to_string(this->time));
+        if (time == 0) {
+            // 本关结束了
+            debug("level: " + std::to_string(this->level) + "ended");
+            destroy();
+            new game(++this->level, this->difficulty);
+            break;
+        }
     }
 }
 
@@ -191,6 +207,17 @@ void game::increaseLevel() {
     ++level;
 }
 
-void game::destory() {
+void game::destroy() {
     this->destroyed = true;
+    for (auto &row: holes) {
+        for (auto &hole: row) {
+            hole.mole.destroy();
+        }
+    }
+    // 等待所有线程结束
+    moleThread->join();
+    hitThread->join();
+    hammerThread->join();
+    scoreThread->join();
+    endThread->join();
 }

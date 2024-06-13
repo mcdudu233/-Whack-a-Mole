@@ -47,6 +47,7 @@ void main_listener() {
         int height = getheight();
         x = ((m.x) * 800) / width;
         y = ((m.y) * 600) / height;
+        debug("test");
         if (m.mkLButton || m.mkMButton || m.mkRButton) {
             if (x >= BUTTON_MAIN_STARTGAME_X && x <= BUTTON_MAIN_STARTGAME_XX && y >= BUTTON_MAIN_STARTGAME_Y && y <= BUTTON_MAIN_STARTGAME_YY) {
                 debug("start button is clicked.");
@@ -289,13 +290,11 @@ void game_listener(game *game) {
         x = m.x;
         y = m.y;
         // 监听游戏中的鼠标事件
-        switch (m.uMsg) {
-            case WM_LBUTTONDOWN: {//  左键单击
-                if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
-                    // 销毁游戏
-                    game->destory();
-                    init_main_graph();// 返回主界面
-                }
+        if (m.mkLButton) {
+            if (x >= 340 && x <= 480 && y >= 530 && y <= 580) {
+                // 销毁游戏
+                game->destroy();
+                init_main_graph();// 返回主界面
             }
         }
     }

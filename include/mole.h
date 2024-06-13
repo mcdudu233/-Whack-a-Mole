@@ -31,6 +31,7 @@ public:
     bool show();               // 地鼠探头
     bool isShowed();           // 地鼠是否探头
     bool isHited(int x, int y);// 是否打中地鼠
+    void destroy();            // 销毁
 };
 
 

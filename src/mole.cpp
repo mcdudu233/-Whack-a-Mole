@@ -37,27 +37,41 @@ void mole::comeAndBack() {
     putimage(this->x, this->y - 20, &this->last);
 
     putImage(this->x, this->y, IMG_MOLE1);
-    delay(80);
-    putimage(this->x, this->y - 20, &this->last);
-    putImage(this->x, this->y - 5, IMG_MOLE2);
-    delay(80);
-    putimage(this->x, this->y - 20, &this->last);
-    putImage(this->x, this->y - 10, IMG_MOLE3);
-    delay(80);
+    delay(50);
+    if (!this->hited) {
+        putimage(this->x, this->y - 20, &this->last);
+        putImage(this->x, this->y - 5, IMG_MOLE2);
+    } else {
+        return;
+    }
+    delay(50);
+    if (!this->hited) {
+        putimage(this->x, this->y - 20, &this->last);
+        putImage(this->x, this->y - 10, IMG_MOLE3);
+    } else {
+        return;
+    }
+    delay(50);
     if (!this->hited) {
         putimage(this->x, this->y - 20, &this->last);
         putImage(this->x, this->y - 15, IMG_MOLE4);
+    } else {
+        return;
     }
     // 等待一定时间回缩
     delay((int) (this->speed * 1000.0F));
     if (!this->hited) {
         putimage(this->x, this->y - 20, &this->last);
         putImage(this->x, this->y - 10, IMG_MOLE3);
+    } else {
+        return;
     }
     delay(30);
     if (!this->hited) {
         putimage(this->x, this->y - 20, &this->last);
         putImage(this->x, this->y - 5, IMG_MOLE2);
+    } else {
+        return;
     }
     delay(30);
     if (!this->hited) {
@@ -65,6 +79,8 @@ void mole::comeAndBack() {
         putImage(this->x, this->y, IMG_MOLE1);
         delay(30);
         putimage(this->x, this->y - 20, &this->last);
+    } else {
+        return;
     }
     this->visible = false;
 }
@@ -119,4 +135,8 @@ bool mole::setX(int x) {
 bool mole::setY(int y) {
     this->y = y;
     return true;
+}
+
+void mole::destroy() {
+    this->hited = true;
 }
