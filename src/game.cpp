@@ -25,10 +25,8 @@ game::game(unsigned short level, Difficulty diff) : level(level), difficulty(dif
 
     // 跟踪锤子
     hammerThread = new std::thread(&game::hammerListener, this);
-
     // 数据刷新
     scoreThread = new std::thread(&game::scoreListener, this);
-
     // 关卡结束
     endThread = new std::thread(&game::endListener, this);
 }
@@ -112,13 +110,9 @@ void game::hitListener() {
     MOUSEMSG m;
     int x, y;
     while (!destroyed) {
-        debug("run1");
-        m = GetMouseMsg();
-        debug("run2");
-        int width = getwidth();
-        int height = getheight();
-        x = ((m.x) * 800) / width;
-        y = ((m.y) * 600) / height;
+        m = mouseMessage();
+        x = m.x;
+        y = m.y;
         for (auto &row: holes) {
             for (auto &hole: row) {
                 if (m.mkLButton && hole.mole.isHited(x, y)) {
@@ -137,11 +131,9 @@ void game::hammerListener() {
     MOUSEMSG m;
     int x, y, last_x, last_y;
     while (!destroyed) {
-        m = GetMouseMsg();
-        int width = getwidth();
-        int height = getheight();
-        x = ((m.x) * 800) / width - 50;
-        y = ((m.y) * 600) / height - 50;
+        m = mouseMessage();
+        x = m.x;
+        y = m.y;
 
         // 还原之前的状态
         if (tmp == nullptr) {

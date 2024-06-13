@@ -10,15 +10,19 @@
 #include "resource.h"
 #include "sound.h"
 #include "vector"
-// 全局变量，记录当前的音量值
-int volume = 50;// 初始音量值（0-100）
-// 全局变量 ，用于设置中的刷新
-IMAGE tmp_0;
-IMAGE tmp_1;
-IMAGE tmp_2;
-// 全局变量，用于记录当前难度，默认难度为简单
-Difficulty difficulty = EASY;
 
+// 根据缩放无阻塞的获取鼠标信息
+MOUSEMSG mouseLast;
+MOUSEMSG mouseMessage() {
+    MOUSEMSG tmp;
+    if (PeekMouseMsg(&tmp, true)) {
+        mouseLast = tmp;
+        // 根据缩放因子求值
+        mouseLast.x = (short) ((float) mouseLast.x * WINDOW_WIDTH / (float) getwidth());
+        mouseLast.y = (short) ((float) mouseLast.y * WINDOW_HEIGHT / (float) getheight());
+    }
+    return mouseLast;
+}
 
 void drawButton(int x, int y, int width, int height, COLORREF color, const char *text, int textHeight, COLORREF textColor) {
     setfillcolor(color);
@@ -50,11 +54,10 @@ void main_listener() {
     MOUSEMSG m;
     int x, y;
     while (true) {
-        m = GetMouseMsg();
-        int width = getwidth();
-        int height = getheight();
-        x = ((m.x) * 800) / width;
-        y = ((m.y) * 600) / height;
+        m = mouseMessage();
+        x = m.x;
+        y = m.y;
+
         if (m.mkLButton || m.mkMButton || m.mkRButton) {
             if (x >= BUTTON_MAIN_STARTGAME_X && x <= BUTTON_MAIN_STARTGAME_XX && y >= BUTTON_MAIN_STARTGAME_Y && y <= BUTTON_MAIN_STARTGAME_YY) {
                 debug("start button is clicked.");
@@ -89,16 +92,25 @@ void init_main_graph() {
     // 返回按钮点击监听线程
     main_listener();
 }
+
+// 全局变量，记录当前的音量值
+int volume = 50;// 初始音量值（0-100）
+// 全局变量 ，用于设置中的刷新
+IMAGE tmp_0;
+IMAGE tmp_1;
+IMAGE tmp_2;
+// 全局变量，用于记录当前难度，默认难度为简单
+Difficulty difficulty = EASY;
+
 void settings_listener() {
     MOUSEMSG m;// 定义消息变量
     int x, y;
     while (true) {
         // 获取一条鼠标或按键消息
-        m = GetMouseMsg();
-        int width = getwidth();
-        int height = getheight();
-        x = ((m.x) * 800) / width;
-        y = ((m.y) * 600) / height;
+        m = mouseMessage();
+        x = m.x;
+        y = m.y;
+
         // 函数声明
         void drawOptionsList(int startX, int startY, int width, int height);
         void drawVolumeControl();
@@ -307,9 +319,10 @@ void game_listener(game *game) {
     MOUSEMSG m;
     int x, y;
     while (true) {
-        m = GetMouseMsg();
+        m = mouseMessage();
         x = m.x;
         y = m.y;
+
         // 监听游戏中的鼠标事件
         if (m.mkLButton) {
             if (x >= 340 && x <= 480 && y >= 530 && y <= 580) {

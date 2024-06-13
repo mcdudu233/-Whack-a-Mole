@@ -5,6 +5,8 @@
 #ifndef WHACK_A_MOLE_WINDOW_H
 #define WHACK_A_MOLE_WINDOW_H
 
+#include "easyx.h"
+#include "graphics.h"
 #include "thread"
 
 // 默认分辨率大小 800*600
@@ -19,7 +21,7 @@
 #define BUTTON_MAIN_STARTGAME_XX (BUTTON_MAIN_STARTGAME_X + BUTTON_MAIN_STARTGAME_WIDTH)
 #define BUTTON_MAIN_STARTGAME_YY (BUTTON_MAIN_STARTGAME_Y + BUTTON_MAIN_STARTGAME_HEIGHT)
 
-
+MOUSEMSG mouseMessage();
 void init_graph(int width, int height);
 void init_main_graph();
 void init_settings_graph();
