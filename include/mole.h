@@ -12,7 +12,8 @@ private:
     int y;
     float speed; // 地鼠动画的速度
     bool visible;// 是否出现
-    IMAGE *last; //上一个图片
+    bool hited;  // 是否被击中
+    IMAGE last;  //上一个图片
 
 private:
     void delay(int milliseconds);// 延时函数
@@ -21,8 +22,8 @@ private:
 
 public:
     mole();
-    ~mole();
     mole(int x, int y);
+    ~mole();
     int getX() const;
     int getY() const;
     bool setX(int x);

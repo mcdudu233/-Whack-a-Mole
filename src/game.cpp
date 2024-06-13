@@ -79,8 +79,8 @@ void game::spawnHoles() {
         for (int j = 0; j < cols; j++) {
             int x = WINDOW_WIDTH / 2 - (rows * 100 + (rows - 1) * gapX) / 2 + i * (100 + gapX);
             int y = WINDOW_HEIGHT / 2 - (cols * 50 + (cols - 1) * gapY) / 2 + j * (50 + gapY);
-            holes[i][j] = {x, y, 100, 50, mole(x + 30, y)};
             putImage(x, y, IMG_HOLE);
+            holes[i][j] = {x, y, 100, 50, mole(x + 30, y)};
         }
     }
 }
@@ -131,10 +131,10 @@ void game::hammerListener() {
     int x, y, last_x, last_y;
     while (!destroyed) {
         m = GetMouseMsg();
-        int width=getwidth();
-        int height=getheight();
-        x = ((m.x)*800)/width-50;
-        y = ((m.y)*600)/height-50;
+        int width = getwidth();
+        int height = getheight();
+        x = ((m.x) * 800) / width - 50;
+        y = ((m.y) * 600) / height - 50;
 
         // 还原之前的状态
         if (tmp == nullptr) {
