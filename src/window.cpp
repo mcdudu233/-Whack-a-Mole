@@ -294,7 +294,7 @@ void init_game_graph() {
     IMAGE img;
     loadimage(&img, getPic("game").c_str(), 800, 600);
     putimage(0, 0, &img);
-    game g(1, HARD);
+    game g(20, HARD);
     // 返回按钮点击监听线程
     game_listener();
 }

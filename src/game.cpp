@@ -10,39 +10,12 @@
 #include "thread"
 #include "window.h"
 
-IMAGE IMG_HOLE;
-IMAGE IMG_HAMMER;
-IMAGE IMG_HAMMER_DOWN;
-
-// 支持透明PNG的图片放置
-void putImage(int x, int y, IMAGE img) {
-    IMAGE img1;
-    DWORD *d1;
-    img1 = img;
-    d1 = GetImageBuffer(&img1);
-    float h, s, l;
-    for (int i = 0; i < img1.getheight() * img1.getwidth(); i++) {
-        RGBtoHSL(BGR(d1[i]), &h, &s, &l);
-        if (l < 0.03) {
-            d1[i] = BGR(WHITE);
-        }
-        if (d1[i] != BGR(WHITE)) {
-            d1[i] = 0;
-        }
-    }
-    putimage(x, y, &img1, SRCAND);
-    putimage(x, y, &img, SRCPAINT);
-}
-
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0) {
-    // 加载所需图片
-    loadimage(&IMG_HOLE, getPicPNG("hole").c_str(), 100, 50);
-    loadimage(&IMG_HAMMER, getPicPNG("hammer").c_str(), 100, 100);
-    loadimage(&IMG_HAMMER_DOWN, getPicPNG("hammer_down").c_str(), 100, 100);
+    // 加载图片资源
+    initResource();
 
     // 生成地鼠洞和地鼠
-    std::thread holeListener(&game::spawnHoles, this);
-    holeListener.detach();
+    spawnHoles();
     std::thread moleListener(&game::spawnMoles, this);
     moleListener.detach();
 
@@ -94,8 +67,10 @@ void game::spawnHoles() {
     unsigned int gapX = 40;
     unsigned int gapY = 30;
 
-
-    holes.resize(rows, std::vector<Hole>(cols));
+    for (int i = 0; i < rows; i++) {
+        std::vector<Hole> hole(cols);
+        holes.push_back(hole);
+    }
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             int x = WINDOW_WIDTH / 2 - (rows * 100 + (rows - 1) * gapX) / 2 + i * (100 + gapX);
@@ -110,6 +85,7 @@ void game::spawnHoles() {
 void game::spawnMoles() {
     for (auto &row: holes) {
         for (auto &hole: row) {
+            debug("show");
             hole.mole.show();
         }
     }

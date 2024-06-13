@@ -1,6 +1,7 @@
 #include "conio.h"
 #include "debug.h"
 #include "graphics.h"
+#include "resource.h"
 #include "sound.h"
 #include "window.h"
 
@@ -8,6 +9,8 @@ int main() {
     debug("starting program.");
     srand((unsigned) time(NULL));// 初始化随机种子
 
+    // 加载图片资源
+    initResource();
     // 初始化音效资源
     initSound();
     // 初始化界面

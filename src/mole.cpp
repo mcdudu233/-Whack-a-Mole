@@ -9,12 +9,6 @@
 #include "resource.h"
 #include "window.h"
 
-IMAGE IMG_MOLE1;
-
-void mole::initImage() {
-    loadimage(&IMG_MOLE1, getPicPNG("mole1").c_str(), 50, 50);
-}
-
 mole::mole() {
     this->x = rand() % (WINDOW_WIDTH);
     this->y = rand() % (WINDOW_HEIGHT);
@@ -43,6 +37,7 @@ bool mole::show() {
         putimage(this->x, this->y, this->last);
     }
     getimage(this->last, this->x, this->y, 100, 50);
+    putImage(this->x, this->y, IMG_MOLE1);
     return true;
 }
 
