@@ -294,7 +294,6 @@ void game_listener(game *game) {
                 if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
                     // 销毁游戏
                     game->destory();
-                    delete game;
                     init_main_graph();// 返回主界面
                 }
             }

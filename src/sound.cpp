@@ -11,6 +11,8 @@
 // 加载静态库 winmm.lib
 #pragma comment(lib, "winmm.lib")
 
+int volumn = 50;
+
 void initSound() {
     // 初始化所有音乐资源
     mciSendString(("open " + getSound("bgm_main") + " alias main").c_str(), nullptr, 0, nullptr);
@@ -40,6 +42,7 @@ void playSound(sound snd) {
             error("no sound resources: " + std::to_string(snd));
             break;
     }
+    setVolumn(volumn);
 }
 
 void closeSound(sound snd) {
@@ -71,7 +74,11 @@ void closeSoundAll() {
     initSound();
 }
 
-void setVolumn(int volumn) {
+void setVolumn(int v) {
+    volumn = v;
     debug("sound volume to " + std::to_string(volumn));
-    mciSendString(("setaudio NOWMUSIC volume to " + std::to_string(volumn)).c_str(), nullptr, 0, nullptr);
+    mciSendString(("setaudio main volume to " + std::to_string(volumn)).c_str(), nullptr, 0, nullptr);
+    mciSendString(("setaudio gaming1 volume to " + std::to_string(volumn)).c_str(), nullptr, 0, nullptr);
+    mciSendString(("setaudio gaming2 volume to " + std::to_string(volumn)).c_str(), nullptr, 0, nullptr);
+    mciSendString(("setaudio hit volume to " + std::to_string(volumn)).c_str(), nullptr, 0, nullptr);
 }
