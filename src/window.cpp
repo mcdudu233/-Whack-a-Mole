@@ -17,7 +17,7 @@ IMAGE tmp_0;
 IMAGE tmp_1;
 IMAGE tmp_2;
 // 全局变量，用于记录当前难度，默认难度为简单
-Difficulty difficulty = HARD;
+Difficulty difficulty = EASY;
 
 
 void drawButton(int x, int y, int width, int height, COLORREF color, const char *text, int textHeight, COLORREF textColor) {
@@ -237,16 +237,19 @@ void init_settings_graph() {
             settextstyle(30, 0, "楷体");
             settextcolor(BLACK);
             outtextxy(160, 100, "简单");
+            break;
         }
         case NORMAL: {
             settextstyle(30, 0, "楷体");
             settextcolor(BLACK);
             outtextxy(160, 100, "普通");
+            break;
         }
         case HARD: {
             settextstyle(30, 0, "楷体");
             settextcolor(BLACK);
             outtextxy(160, 100, "困难");
+            break;
         }
     }
 

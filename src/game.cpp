@@ -172,35 +172,37 @@ void game::scoreListener() {
                 settextstyle(30, 0, "楷体");
                 settextcolor(BLACK);
                 outtextxy(160, 130, "简单");
+                break;
             }
             case NORMAL: {
                 settextstyle(30, 0, "楷体");
                 settextcolor(BLACK);
                 outtextxy(160, 130, "普通");
+                break;
             }
             case HARD: {
                 settextstyle(30, 0, "楷体");
                 settextcolor(BLACK);
                 outtextxy(160, 130, "困难");
+                break;
             }
-                // 输出当前关卡
-                settextstyle(30, 0, "楷体");
-                settextcolor(BLACK);
-                outtextxy(160, 10, std::to_string(this->level).c_str());
-                // 输出剩余时间
-                settextstyle(30, 0, "楷体");
-                settextcolor(BLACK);
-                outtextxy(160, 50, std::to_string(this->time).c_str());
-                // 输出当前得分
-                settextstyle(30, 0, "楷体");
-                settextcolor(BLACK);
-                outtextxy(160, 90, std::to_string(this->score).c_str());
-        }
-
+        }  // 输出当前关卡
+        settextstyle(30, 0, "楷体");
+        settextcolor(BLACK);
+        outtextxy(160, 10, std::to_string(this->level).c_str());
+        // 输出剩余时间
+        settextstyle(30, 0, "楷体");
+        settextcolor(BLACK);
+        outtextxy(160, 50, std::to_string(this->time).c_str());
+        // 输出当前得分
+        settextstyle(30, 0, "楷体");
+        settextcolor(BLACK);
+        outtextxy(160, 90, std::to_string(this->score).c_str());
         // 每隔100ms刷新一次
         delay(100);
     }
 }
+
 
 // 游戏时间
 void game::endListener() {
