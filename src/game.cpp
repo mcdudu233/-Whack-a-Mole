@@ -24,6 +24,10 @@ game::game(unsigned short level, Difficulty diff) : level(level), difficulty(dif
     // 跟踪锤子
     std::thread hammerListener(&game::hammerListener, this);
     hammerListener.detach();
+
+    // 数据刷新
+    std::thread scoreListener(&game::scoreListener, this);
+    scoreListener.detach();
 }
 
 game::~game() {
@@ -155,6 +159,14 @@ void game::hammerListener() {
         } else {
             putImage(x, y, IMG_HAMMER);
         }
+    }
+}
+
+// 顶部数据显示
+void game::scoreListener() {
+    while (!destroyed) {
+        // 每隔100ms刷新一次
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 

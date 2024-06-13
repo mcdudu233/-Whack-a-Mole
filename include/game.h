@@ -33,9 +33,10 @@ private:
 
 private:
     void spawnHoles();          // 初始化地鼠洞
-    void hitMoles();            // 判断是否击中地鼠
     void spawnMoles();          // 随机生成地鼠
+    void hitMoles();            // 判断是否击中地鼠
     void hammerListener();      // 跟踪锤子
+    void scoreListener();       // 顶部数据显示
     float getDifficultyFactor();// 根据关卡等级和难度获得难度因子
 
 public:
