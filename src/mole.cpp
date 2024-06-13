@@ -6,10 +6,16 @@
 #include "debug.h"
 #include "graphics.h"
 #include "random"
+#include "resource.h"
 #include "window.h"
 
-mole::mole() {
+IMAGE IMG_MOLE1;
 
+void mole::initImage() {
+    loadimage(&IMG_MOLE1, getPicPNG("mole1").c_str(), 50, 50);
+}
+
+mole::mole() {
     this->x = rand() % (WINDOW_WIDTH);
     this->y = rand() % (WINDOW_HEIGHT);
     this->visible = false;
@@ -23,11 +29,20 @@ mole::mole(int x, int y) {
     debug("new mole in " + std::to_string(x) + "x" + std::to_string(y));
 }
 
+mole::~mole() {
+    // ÊÍ·ÅÄÚ´æ
+    delete this->last;
+}
+
 bool mole::show() {
-    this->visible = true;
-    setfillcolor(BROWN);
-    fillrectangle(this->x, this->y, this->x + 30, this->y + 30);
     debug("show mole in " + std::to_string(this->x) + "x" + std::to_string(this->y));
+    this->visible = true;
+    if (this->last == nullptr) {
+        this->last = new IMAGE;
+    } else {
+        putimage(this->x, this->y, this->last);
+    }
+    getimage(this->last, this->x, this->y, 100, 50);
     return true;
 }
 

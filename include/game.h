@@ -15,10 +15,10 @@ typedef enum { EASY,
 
 // 地鼠洞的结构体
 typedef struct {
-    unsigned int x;
-    unsigned int y;
-    unsigned int width;
-    unsigned int height;
+    int x;
+    int y;
+    int width;
+    int height;
     mole mole;
 } Hole;
 
@@ -28,10 +28,14 @@ private:
     Difficulty difficulty;               // 游戏难度
     unsigned int score;                  // 当前得分
     std::vector<std::vector<Hole>> holes;// 当前关卡地鼠洞的二维数组
+    bool destroyed;                      // 是否已经销毁
+
 private:
-    void initializeHoles();     // 初始化地鼠洞
+    void spawnHoles();          // 初始化地鼠洞
     void spawnMoles();          // 随机生成地鼠
+    void hammerListener();      // 跟踪锤子
     float getDifficultyFactor();// 根据关卡等级和难度获得难度因子
+
 public:
     game(unsigned short level, Difficulty diff); // 构造函数
     ~game();                                     // 析构函数

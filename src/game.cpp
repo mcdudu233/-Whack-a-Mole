@@ -5,18 +5,31 @@
 #include "game.h"
 #include "debug.h"
 #include "easyx.h"
+#include "graphics.h"
 #include "resource.h"
+#include "thread"
 #include "window.h"
 
 IMAGE IMG_HOLE;
+IMAGE IMG_HAMMER;
+IMAGE IMG_HAMMER_DOWN;
 
 
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0) {
     // 加载所需图片
     loadimage(&IMG_HOLE, getPicPNG("hole").c_str(), 100, 50);
+    loadimage(&IMG_HAMMER, getPicPNG("hammer").c_str(), 100, 100);
+    loadimage(&IMG_HAMMER_DOWN, getPicPNG("hammer_down").c_str(), 100, 100);
 
-    initializeHoles();
-    //spawnMoles();
+    // 生成地鼠洞和地鼠
+    std::thread holeListener(&game::spawnHoles, this);
+    holeListener.detach();
+    std::thread moleListener(&game::spawnMoles, this);
+    moleListener.detach();
+
+    // 跟踪锤子
+    std::thread hammerListener(&game::hammerListener, this);
+    hammerListener.detach();
 }
 
 game::~game() {
@@ -54,25 +67,21 @@ float game::getDifficultyFactor() {
 }
 
 // 初始化地鼠洞
-void game::initializeHoles() {
+void game::spawnHoles() {
     float diff = getDifficultyFactor();// 获取难度因子
     // 根据难度计算行列
     unsigned int rows = 1 + (int) (diff / 5.0F);
     unsigned int cols = rows;
-    /*unsigned int gapX = (800-100*rows)/7*(rows+1);
-    unsigned int gapY = (600-50*cols)/6*(cols+1);*/
     unsigned int gapX = 40;
     unsigned int gapY = 30;
 
 
     holes.resize(rows, std::vector<Hole>(cols));
-    for (unsigned int i = 0; i < rows; i++) {
-        for (unsigned int j = 0; j < cols; j++) {
-            unsigned int x = WINDOW_WIDTH/2-(rows*100+(rows-1)*gapX)/2 + i * (100 + gapX);
-            unsigned int y = WINDOW_HEIGHT/2-(cols*50+(cols-1)*gapY)/2 + j * (50 + gapY);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            int x = WINDOW_WIDTH / 2 - (rows * 100 + (rows - 1) * gapX) / 2 + i * (100 + gapX);
+            int y = WINDOW_HEIGHT / 2 - (cols * 50 + (cols - 1) * gapY) / 2 + j * (50 + gapY);
             holes[i][j] = {x, y, 100, 50, mole(x, y)};
-            debug(std::to_string(x));
-            debug(std::to_string(y));
             putimage(x, y, &IMG_HOLE);
         }
     }
@@ -83,6 +92,35 @@ void game::spawnMoles() {
     for (auto &row: holes) {
         for (auto &hole: row) {
             hole.mole.show();
+        }
+    }
+}
+
+// 监听锤子位置
+void game::hammerListener() {
+    IMAGE *tmp;
+    MOUSEMSG m;
+    int x, y, last_x, last_y;
+    while (true) {
+        m = GetMouseMsg();
+        x = m.x - 50;
+        y = m.y - 50;
+        // 还原之前的状态
+        if (tmp == nullptr) {
+            tmp = new IMAGE;
+        } else {
+            putimage(last_x, last_y, tmp);
+        }
+        // 保存之前的状态
+        getimage(tmp, x, y, 100, 100);
+        last_x = x;
+        last_y = y;
+        // 放置锤子
+        if (m.mkLButton) {
+            debug("hammer down.");
+            putimage(x, y, &IMG_HAMMER_DOWN);
+        } else {
+            putimage(x, y, &IMG_HAMMER);
         }
     }
 }
