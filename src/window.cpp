@@ -84,89 +84,90 @@ IMAGE tmp;
 IMAGE tmp_1;
 IMAGE tmp_2;
 void settings_listener() {
-    MOUSEMSG m;		// 定义消息变量
+    MOUSEMSG m;// 定义消息变量
     int x, y;
     while (true) {
         // 获取一条鼠标或按键消息
         m = GetMouseMsg();
         x = m.x;
         y = m.y;
-        // TODO 监听设置的鼠标事件
         // 函数声明
         void drawOptionsList(int startX, int startY, int width, int height);
         void drawVolumeControl();
-        void handleMouseDrag(int x,int y);
-        switch(m.uMsg) {
-            case WM_LBUTTONDOWN:   //  左键单击
+        void handleMouseDrag(int x, int y);
+        switch (m.uMsg) {
+            case WM_LBUTTONDOWN://  左键单击
             {
-                if(x>=50&&x<=250&&y>=200&&y<=250) {
+                if (x >= 50 && x <= 250 && y >= 200 && y <= 250) {
                     // 简单模式
-                    putimage(160,100,&tmp_1);
+                    putimage(160, 100, &tmp_1);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "简单");
                     break;
-                }
-                else if(x>=50&&x<=250&&y>=300&&y<=350) {
+                } else if (x >= 50 && x <= 250 && y >= 300 && y <= 350) {
                     // 普通模式
-                    putimage(160,100,&tmp_1);
+                    putimage(160, 100, &tmp_1);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "普通");
                     break;
-                }
-                else if(x>=50&&x<=250&&y>=400&&y<=450) {
+                } else if (x >= 50 && x <= 250 && y >= 400 && y <= 450) {
                     // 困难模式
-                    putimage(160,100,&tmp_1);
+                    putimage(160, 100, &tmp_1);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "困难");
                     break;
-                }else if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
-                    init_main_graph(); // 返回主界面
+                } else if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
+                    init_main_graph();// 返回主界面
                     break;
-                }else if(x>=310&&x<=480&&y>=150&&y<=230) {
-                    putimage(480,100,&tmp_2);
+                } else if (x >= 310 && x <= 480 && y >= 150 && y <= 230) {
+                    putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(480, 100, "800×600");
-
+                    init_graph(800, 600);
+                    init_settings_graph();
                     break;
-                }else if(x>=310&&x<=480&&y>=230&&y<=280) {
-                    putimage(480,100,&tmp_2);
+                } else if (x >= 310 && x <= 480 && y >= 230 && y <= 280) {
+                    putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(480, 100, "1280×720");
+                    init_graph(1280, 720);
+                    init_settings_graph();
                     break;
-                }else if(x>=500&&x<=670&&y>=150&&y<=200) {
-                    putimage(480,100,&tmp_2);
+                } else if (x >= 500 && x <= 670 && y >= 150 && y <= 200) {
+                    putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(480, 100, "1020×768");
-
+                    init_graph(1020, 768);
+                    init_settings_graph();
                     break;
-                }else if(x>=500&&x<=670&&y>=230&&y<=280) {
-                    putimage(480,100,&tmp_2);
+                } else if (x >= 500 && x <= 670 && y >= 230 && y <= 280) {
+                    putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
-                    outtextxy(480, 100, "1920×1080");
-
+                    outtextxy(1920, 1080, "1920×1080");
+                    init_graph(1920, 1080);
+                    init_settings_graph();
                     break;
                 }
             }
 
-            case (WM_LBUTTONDOWN&&WM_MOUSEMOVE): {
-                handleMouseDrag(m.x,m.y);
-                drawVolumeControl(); // 更新界面显示
+            case (WM_LBUTTONDOWN && WM_MOUSEMOVE): {
+                handleMouseDrag(m.x, m.y);
+                drawVolumeControl();// 更新界面显示
                 break;
-
             }
         }
-        }
     }
+}
 
 // 全局变量，记录当前的音量值
-int volume = 50;                                            // 初始音量值（0-100）
+int volume = 50;// 初始音量值（0-100）
 
 // 绘制音量调节界面
 void drawVolumeControl() {
@@ -194,16 +195,15 @@ void drawVolumeControl() {
     setVolumn(volume);
     outtextxy(310, 420, volStr);
 }
+
 // 处理鼠标拖动事件
-void handleMouseDrag(int x,int y) {
-    if(y>=350&&y<=420&&x>=340&&x<=760) {
+void handleMouseDrag(int x, int y) {
+    if (y >= 350 && y <= 420 && x >= 340 && x <= 760) {
         if (x < 350) x = 350;
         if (x > 750) x = 750;
         volume = (x - 350) * 100 / 400;
-        putimage(350,360,&tmp);
+        putimage(350, 360, &tmp);
     }
-
-
 }
 
 void init_settings_graph() {
@@ -213,12 +213,12 @@ void init_settings_graph() {
     IMAGE img;
     loadimage(&img, getPic("game").c_str(), 800, 600);
     putimage(0, 0, &img);
-    getimage(&tmp,350,360,400,150);
-    getimage(&tmp_1,160,100,100,50);
-    getimage(&tmp_2,480,100,200,50);
+    getimage(&tmp, 350, 360, 400, 150);
+    getimage(&tmp_1, 160, 100, 100, 50);
+    getimage(&tmp_2, 480, 100, 200, 50);
     // 包围框
     setcolor(WHITE);
-    rectangle(10,5,790,590);
+    rectangle(10, 5, 790, 590);
     // TODO xb：做完以下内容以后删掉本行
     // 设置标题
     settextcolor(BLACK);
