@@ -83,6 +83,7 @@ void init_main_graph() {
 IMAGE tmp;
 IMAGE tmp_1;
 IMAGE tmp_2;
+IMAGE tmp_3;
 void settings_listener() {
     MOUSEMSG m;// 定义消息变量
     int x, y;
@@ -182,12 +183,12 @@ void drawVolumeControl() {
     int sliderPos = 350 + volume * 400 / 100;
 
     // 绘制滑动条当前值
-    setfillcolor(YELLOW);
+    setfillcolor(WHITE);
     solidrectangle(350, 360, sliderPos, 410);
 
     // 绘制滑块
     setfillcolor(WHITE);
-    solidrectangle(sliderPos - 5, 360, sliderPos + 5, 410);
+    solidrectangle(sliderPos - 1, 360, sliderPos + 1, 410);
 
     // 显示当前音量值
     char volStr[20];
@@ -231,6 +232,10 @@ void init_settings_graph() {
     settextstyle(30, 0, "楷体");
     settextcolor(BLACK);
     outtextxy(25, 100, "游戏难度:");
+    // 默认难度为简单
+    settextstyle(30, 0, "楷体");
+    settextcolor(BLACK);
+    outtextxy(160, 100, "简单");
     // 绘制难度按钮
     settextstyle(20, 10, "楷体");
     rectangle(50, 200, 250, 250);
@@ -246,6 +251,19 @@ void init_settings_graph() {
     settextstyle(30, 0, "楷体");
     settextcolor(BLACK);
     outtextxy(310, 100, "分辨率选择:");
+    settextstyle(30, 0, "楷体");
+    // 读取当前分辨率
+    int width = getwidth(); // 获取窗口宽度
+    int height = getheight(); // 获取窗口高度
+    // 输出窗口大小
+    char text[50];
+    sprintf(text, "%d×", width);
+    outtextxy(480, 100, text); // 在 (48, 100) 的位置输出宽度信息
+    sprintf(text, "%d", height);
+    outtextxy(560, 100, text); // 在 (560, 100) 的位置输出高度信息
+    settextcolor(BLACK);
+
+
     // 绘制分辨率选择按钮
     settextstyle(30, 10, "楷体");
     rectangle(310, 150, 480, 200);
