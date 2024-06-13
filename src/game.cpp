@@ -14,6 +14,25 @@ IMAGE IMG_HOLE;
 IMAGE IMG_HAMMER;
 IMAGE IMG_HAMMER_DOWN;
 
+// 支持透明PNG的图片放置
+void putImage(int x, int y, IMAGE img) {
+    IMAGE img1;
+    DWORD *d1;
+    img1 = img;
+    d1 = GetImageBuffer(&img1);
+    float h, s, l;
+    for (int i = 0; i < img1.getheight() * img1.getwidth(); i++) {
+        RGBtoHSL(BGR(d1[i]), &h, &s, &l);
+        if (l < 0.03) {
+            d1[i] = BGR(WHITE);
+        }
+        if (d1[i] != BGR(WHITE)) {
+            d1[i] = 0;
+        }
+    }
+    putimage(x, y, &img1, SRCAND);
+    putimage(x, y, &img, SRCPAINT);
+}
 
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0) {
     // 加载所需图片
@@ -82,7 +101,7 @@ void game::spawnHoles() {
             int x = WINDOW_WIDTH / 2 - (rows * 100 + (rows - 1) * gapX) / 2 + i * (100 + gapX);
             int y = WINDOW_HEIGHT / 2 - (cols * 50 + (cols - 1) * gapY) / 2 + j * (50 + gapY);
             holes[i][j] = {x, y, 100, 50, mole(x, y)};
-            putimage(x, y, &IMG_HOLE);
+            putImage(x, y, IMG_HOLE);
         }
     }
 }
@@ -118,9 +137,9 @@ void game::hammerListener() {
         // 放置锤子
         if (m.mkLButton) {
             debug("hammer down.");
-            putimage(x, y, &IMG_HAMMER_DOWN);
+            putImage(x, y, IMG_HAMMER_DOWN);
         } else {
-            putimage(x, y, &IMG_HAMMER);
+            putImage(x, y, IMG_HAMMER);
         }
     }
 }
