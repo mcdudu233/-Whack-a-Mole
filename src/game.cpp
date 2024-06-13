@@ -75,7 +75,7 @@ void game::spawnHoles() {
         for (int j = 0; j < cols; j++) {
             int x = WINDOW_WIDTH / 2 - (rows * 100 + (rows - 1) * gapX) / 2 + i * (100 + gapX);
             int y = WINDOW_HEIGHT / 2 - (cols * 50 + (cols - 1) * gapY) / 2 + j * (50 + gapY);
-            holes[i][j] = {x, y, 100, 50, mole(x, y)};
+            holes[i][j] = {x, y, 100, 50, mole(x + 30, y)};
             putImage(x, y, IMG_HOLE);
         }
     }

@@ -21,6 +21,10 @@ extern IMAGE IMG_HOLE;
 extern IMAGE IMG_HAMMER;
 extern IMAGE IMG_HAMMER_DOWN;
 extern IMAGE IMG_MOLE1;
+extern IMAGE IMG_MOLE2;
+extern IMAGE IMG_MOLE3;
+extern IMAGE IMG_MOLE4;
+extern IMAGE IMG_MOLE5;
 
 void initResource();
 std::string getPic(std::string name);

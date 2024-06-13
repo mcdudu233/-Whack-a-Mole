@@ -9,13 +9,21 @@ IMAGE IMG_HOLE;
 IMAGE IMG_HAMMER;
 IMAGE IMG_HAMMER_DOWN;
 IMAGE IMG_MOLE1;
+IMAGE IMG_MOLE2;
+IMAGE IMG_MOLE3;
+IMAGE IMG_MOLE4;
+IMAGE IMG_MOLE5;
 
 void initResource() {
     // 加载所需图片
     loadimage(&IMG_HOLE, getPicPNG("hole").c_str(), 100, 50);
     loadimage(&IMG_HAMMER, getPicPNG("hammer").c_str(), 100, 100);
     loadimage(&IMG_HAMMER_DOWN, getPicPNG("hammer_down").c_str(), 100, 100);
-    loadimage(&IMG_MOLE1, getPicPNG("mole1").c_str(), 50, 50);
+    loadimage(&IMG_MOLE1, getPicPNG("mole1").c_str(), 40, 20);
+    loadimage(&IMG_MOLE2, getPicPNG("mole2").c_str(), 40, 20);
+    loadimage(&IMG_MOLE3, getPicPNG("mole3").c_str(), 40, 20);
+    loadimage(&IMG_MOLE4, getPicPNG("mole4").c_str(), 40, 20);
+    loadimage(&IMG_MOLE5, getPicPNG("mole5").c_str(), 40, 20);
 }
 
 std::string getPic(std::string name) {
