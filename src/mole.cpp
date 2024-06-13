@@ -72,20 +72,22 @@ void mole::comeAndBack() {
 }
 
 void mole::hit() {
-    this->visible = false;
     putImage(this->x, this->y - 5, IMG_MOLE5);
     delay(300);
     putimage(this->x, this->y - 20, this->last);
     delay(1000);
     putimage(this->x, this->y - 20, this->last);
+    this->visible = false;
 }
 
 bool mole::show() {
-    delay(500);
-    debug("show mole in " + std::to_string(this->x) + "x" + std::to_string(this->y));
-    // 创建探头并且回缩线程
-    std::thread listen(&mole::comeAndBack, this);
-    listen.detach();
+    if (!this->visible) {
+        delay(200);
+        debug("show mole in " + std::to_string(this->x) + "x" + std::to_string(this->y));
+        // 创建探头并且回缩线程
+        std::thread listen(&mole::comeAndBack, this);
+        listen.detach();
+    }
     return true;
 }
 
