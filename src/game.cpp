@@ -17,7 +17,7 @@ IMAGE tmp_4;
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), time(10), moles(0), destroyed(false) {
     // 加载图片资源
     initResource();
-    getimage(&tmp_4,160,0,100,120);
+    getimage(&tmp_4, 160, 0, 100, 120);
     // 生成地鼠洞和地鼠
     spawnHoles();
     moleThread = new std::thread(&game::spawnMoles, this);
@@ -166,7 +166,7 @@ void game::hammerListener() {
 // 顶部数据显示
 void game::scoreListener() {
     while (!destroyed) {
-        putimage(160,0,&tmp_4);
+        putimage(160, 0, &tmp_4);
         switch (this->difficulty) {
             case EASY: {
                 settextstyle(30, 0, "楷体");
@@ -186,7 +186,7 @@ void game::scoreListener() {
                 outtextxy(160, 130, "困难");
                 break;
             }
-        }  // 输出当前关卡
+        }// 输出当前关卡
         settextstyle(30, 0, "楷体");
         settextcolor(BLACK);
         outtextxy(160, 10, std::to_string(this->level).c_str());
