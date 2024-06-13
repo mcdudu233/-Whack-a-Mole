@@ -109,8 +109,10 @@ void game::hitMoles() {
     while (!destroyed) {
         m = GetMouseMsg();
         if (m.mkLButton) {
-            x = m.x;
-            y = m.y;
+            int width = getwidth();
+            int height = getheight();
+            x = ((m.x) * 800) / width;
+            y = ((m.y) * 600) / height;
             for (auto &row: holes) {
                 for (auto &hole: row) {
                     if (hole.mole.isHited(x, y)) {
