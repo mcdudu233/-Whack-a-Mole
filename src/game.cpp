@@ -10,7 +10,7 @@
 #include "thread"
 #include "window.h"
 
-game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0) {
+game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), destroyed(false) {
     // 加载图片资源
     initResource();
 
@@ -25,6 +25,8 @@ game::game(unsigned short level, Difficulty diff) : level(level), difficulty(dif
 }
 
 game::~game() {
+    // 关闭所有线程
+    this->destroyed = true;
     // 如果有需要清理的资源，在这里进行清理
 }
 
@@ -96,7 +98,7 @@ void game::hammerListener() {
     IMAGE *tmp;
     MOUSEMSG m;
     int x, y, last_x, last_y;
-    while (true) {
+    while (!destroyed) {
         m = GetMouseMsg();
         x = m.x - 50;
         y = m.y - 50;
@@ -155,4 +157,8 @@ unsigned short game::getLevel() const {
 // 增加关卡等级
 void game::increaseLevel() {
     ++level;
+}
+
+void game::destory() {
+    this->destroyed = true;
 }

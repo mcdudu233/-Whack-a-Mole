@@ -39,6 +39,7 @@ private:
 public:
     game(unsigned short level, Difficulty diff); // 构造函数
     ~game();                                     // 析构函数
+    void destory();                              // 关闭这局游戏
     void startNewLevel();                        // 开始新关卡
     void hitMole(unsigned int x, unsigned int y);// 击打地鼠
     unsigned int getScore() const;               // 获取当前得分
