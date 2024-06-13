@@ -352,7 +352,7 @@ void init_game_graph() {
     // 绘制返回按键
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 开始关卡
-    game game(8, difficulty);
+    game game(20, difficulty);
 
     // 返回按钮点击监听线程
     game_listener(&game);

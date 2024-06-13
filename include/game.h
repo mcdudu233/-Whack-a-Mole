@@ -39,15 +39,14 @@ private:
     std::thread *endThread;
 
 private:
-    void
-    delay(int milliseconds);    // 延时函数
-    void spawnHoles();          // 初始化地鼠洞
-    void spawnMoles();          // 随机生成地鼠
-    void hitListener();         // 判断是否击中地鼠
-    void hammerListener();      // 跟踪锤子
-    void scoreListener();       // 顶部数据显示
-    void endListener();         // 等待游戏时间结束
-    float getDifficultyFactor();// 根据关卡等级和难度获得难度因子
+    void delay(int milliseconds);// 延时函数
+    void spawnHoles();           // 初始化地鼠洞
+    void spawnMoles();           // 随机生成地鼠
+    void hitListener();          // 判断是否击中地鼠
+    void hammerListener();       // 跟踪锤子
+    void scoreListener();        // 顶部数据显示
+    void endListener();          // 等待游戏时间结束
+    float getDifficultyFactor(); // 根据关卡等级和难度获得难度因子
 
 public:
     game(unsigned short level, Difficulty diff);// 构造函数
