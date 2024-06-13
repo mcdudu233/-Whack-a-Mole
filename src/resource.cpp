@@ -20,10 +20,10 @@ void initResource() {
     loadimage(&IMG_HAMMER, getPicPNG("hammer").c_str(), 100, 100);
     loadimage(&IMG_HAMMER_DOWN, getPicPNG("hammer_down").c_str(), 100, 100);
     loadimage(&IMG_MOLE1, getPicPNG("mole1").c_str(), 40, 20);
-    loadimage(&IMG_MOLE2, getPicPNG("mole2").c_str(), 40, 20);
-    loadimage(&IMG_MOLE3, getPicPNG("mole3").c_str(), 40, 20);
-    loadimage(&IMG_MOLE4, getPicPNG("mole4").c_str(), 40, 20);
-    loadimage(&IMG_MOLE5, getPicPNG("mole5").c_str(), 40, 20);
+    loadimage(&IMG_MOLE2, getPicPNG("mole2").c_str(), 40, 25);
+    loadimage(&IMG_MOLE3, getPicPNG("mole3").c_str(), 40, 30);
+    loadimage(&IMG_MOLE4, getPicPNG("mole4").c_str(), 40, 35);
+    loadimage(&IMG_MOLE5, getPicPNG("mole5").c_str(), 40, 30);
 }
 
 std::string getPic(std::string name) {
