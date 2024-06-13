@@ -100,8 +100,11 @@ void game::hammerListener() {
     int x, y, last_x, last_y;
     while (!destroyed) {
         m = GetMouseMsg();
-        x = m.x - 50;
-        y = m.y - 50;
+        int width=getwidth();
+        int height=getheight();
+        x = ((m.x)*800)/width-50;
+        y = ((m.y)*600)/height-50;
+
         // 还原之前的状态
         if (tmp == nullptr) {
             tmp = new IMAGE;

@@ -43,8 +43,10 @@ void main_listener() {
     int x, y;
     while (true) {
         m = GetMouseMsg();
-        x = m.x;
-        y = m.y;
+        int width=getwidth();
+        int height=getheight();
+        x = ((m.x)*800)/width;
+        y = ((m.y)*600)/height;
         if (m.mkLButton || m.mkMButton || m.mkRButton) {
             if (x >= BUTTON_MAIN_STARTGAME_X && x <= BUTTON_MAIN_STARTGAME_XX && y >= BUTTON_MAIN_STARTGAME_Y && y <= BUTTON_MAIN_STARTGAME_YY) {
                 debug("start button is clicked.");
@@ -90,8 +92,10 @@ void settings_listener() {
     while (true) {
         // 获取一条鼠标或按键消息
         m = GetMouseMsg();
-        x = m.x;
-        y = m.y;
+        int width=getwidth();
+        int height=getheight();
+        x = ((m.x)*800)/width;
+        y = ((m.y)*600)/height;
         // 函数声明
         void drawOptionsList(int startX, int startY, int width, int height);
         void drawVolumeControl();
@@ -126,40 +130,32 @@ void settings_listener() {
                 } else if (x >= 310 && x <= 480 && y >= 150 && y <= 230) {
                     putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
-                    settextcolor(BLACK);
-                    outtextxy(480, 100, "800×600");
-                    init_graph(800, 600);
+                    init_graph(400, 300);
                     init_settings_graph();
                     break;
                 } else if (x >= 310 && x <= 480 && y >= 230 && y <= 280) {
                     putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
-                    settextcolor(BLACK);
-                    outtextxy(480, 100, "1280×720");
-                    init_graph(1280, 720);
+                    init_graph(800, 600);
                     init_settings_graph();
                     break;
                 } else if (x >= 500 && x <= 670 && y >= 150 && y <= 200) {
                     putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
-                    settextcolor(BLACK);
-                    outtextxy(480, 100, "1020×768");
-                    init_graph(1020, 768);
+                    init_graph(1200, 900);
                     init_settings_graph();
                     break;
                 } else if (x >= 500 && x <= 670 && y >= 230 && y <= 280) {
                     putimage(480, 100, &tmp_2);
                     settextstyle(30, 0, "楷体");
-                    settextcolor(BLACK);
-                    outtextxy(1920, 1080, "1920×1080");
-                    init_graph(1920, 1080);
+                    init_graph(1600, 1200);
                     init_settings_graph();
                     break;
                 }
             }
 
             case (WM_LBUTTONDOWN && WM_MOUSEMOVE): {
-                handleMouseDrag(m.x, m.y);
+                handleMouseDrag(x, y);
                 drawVolumeControl();// 更新界面显示
                 break;
             }
@@ -267,16 +263,16 @@ void init_settings_graph() {
     // 绘制分辨率选择按钮
     settextstyle(30, 10, "楷体");
     rectangle(310, 150, 480, 200);
-    outtextxy(350, 160, "800×600");
+    outtextxy(350, 160, "400×300");
     //800*600选择模块
     rectangle(310, 230, 480, 280);
-    outtextxy(350, 240, "1280×720");
+    outtextxy(350, 240, "800×600");
     //1280*720模块
     rectangle(500, 230, 670, 280);
-    outtextxy(540, 240, "1920×1080");
+    outtextxy(540, 240, "1200×900");
     // 1920×1080模块
     rectangle(500, 150, 670, 200);
-    outtextxy(540, 160, "1020×768");
+    outtextxy(540, 160, "1600×1200");
 
 
     // 音量设置
@@ -295,6 +291,9 @@ void game_listener() {
         x = m.x;
         y = m.y;
         // TODO 监听游戏中的鼠标事件
+
+
+
         switch (m.uMsg) {
             case WM_LBUTTONDOWN: {//  左键单击
                 if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
@@ -335,6 +334,8 @@ void init_game_graph() {
     // 绘制返回按键
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 开始关卡
+    outtextxy(10,90,"当前分数:");
+
     game game(20, HARD);
     // 返回按钮点击监听线程
     game_listener();
