@@ -165,6 +165,33 @@ void game::hammerListener() {
 // 顶部数据显示
 void game::scoreListener() {
     while (!destroyed) {
+        switch(this->difficulty) {
+            case EASY: {
+                settextstyle(30, 0, "楷体");
+                settextcolor(BLACK);
+                outtextxy(160, 130, "简单");
+            }
+            case NORMAL: {
+                settextstyle(30, 0, "楷体");
+                settextcolor(BLACK);
+                outtextxy(160, 130, "普通");
+            }
+            case HARD:{
+                settextstyle(30, 0, "楷体");
+                settextcolor(BLACK);
+                outtextxy(160, 130, "困难");
+            }
+            // 输出当前关卡
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 10, this->level);
+            // 输出当前得分
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 90, this->score);
+
+        }
+
         // 每隔100ms刷新一次
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
