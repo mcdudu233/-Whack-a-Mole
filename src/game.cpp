@@ -10,7 +10,7 @@
 #include "thread"
 #include "window.h"
 
-game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), destroyed(false) {
+game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), moles(0), destroyed(false) {
     // 加载图片资源
     initResource();
 
@@ -18,6 +18,8 @@ game::game(unsigned short level, Difficulty diff) : level(level), difficulty(dif
     spawnHoles();
     std::thread moleListener(&game::spawnMoles, this);
     moleListener.detach();
+    std::thread hitListener(&game::hitMoles, this);
+    hitListener.detach();
 
     // 跟踪锤子
     std::thread hammerListener(&game::hammerListener, this);
@@ -85,11 +87,23 @@ void game::spawnHoles() {
 
 // 随机生成地鼠
 void game::spawnMoles() {
-    for (auto &row: holes) {
-        for (auto &hole: row) {
-            hole.mole.show();
+    MOUSEMSG m;
+    int x, y;
+    while (!destroyed) {
+        for (auto &row: holes) {
+            for (auto &hole: row) {
+                if (rand() < (int) (getDifficultyFactor() * 100.0F)) {
+                    debug("show mole");
+                    hole.mole.show();
+                }
+            }
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
+}
+
+// 随机生成地鼠
+void game::hitMoles() {
     MOUSEMSG m;
     int x, y;
     while (!destroyed) {
@@ -100,7 +114,9 @@ void game::spawnMoles() {
             for (auto &row: holes) {
                 for (auto &hole: row) {
                     if (hole.mole.isHited(x, y)) {
-                        debug("hited");
+                        debug("mole hited");
+                        // 每击中一个地鼠得5分
+                        score += 5;
                     }
                 }
             }
@@ -141,22 +157,6 @@ void game::hammerListener() {
 void game::startNewLevel() {
     increaseLevel();
     spawnMoles();
-}
-
-// 击打地鼠
-void game::hitMole(unsigned int x, unsigned int y) {
-    for (auto &row: holes) {
-        for (auto &hole: row) {
-            if (x >= hole.x && x < (hole.x + hole.width) &&
-                y >= hole.y && y < (hole.y + hole.height)) {
-                if (hole.mole.isShowed()) {
-                    //                    hole.mole.isVisible = false;
-                    score += 10;// 每击中一个地鼠得10分
-                }
-                return;
-            }
-        }
-    }
 }
 
 // 获取当前得分

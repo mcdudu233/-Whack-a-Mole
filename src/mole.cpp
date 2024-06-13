@@ -93,7 +93,7 @@ bool mole::show() {
 
 bool mole::isHited(int x, int y) {
     if (this->visible) {
-        if (this->x <= x && x <= this->x + 80 && this->y <= y && y <= this->y + 50) {
+        if (this->x <= x && x <= this->x + 80 && this->y <= y && y <= this->y + 100) {
             std::thread listen(&mole::hit, this);
             listen.detach();
             return true;

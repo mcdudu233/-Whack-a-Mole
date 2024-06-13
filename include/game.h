@@ -27,24 +27,25 @@ private:
     unsigned short level;                // 当前关卡等级
     Difficulty difficulty;               // 游戏难度
     unsigned int score;                  // 当前得分
+    unsigned int moles;                  // 当前出现的地鼠数
     std::vector<std::vector<Hole>> holes;// 当前关卡地鼠洞的二维数组
     bool destroyed;                      // 是否已经销毁
 
 private:
     void spawnHoles();          // 初始化地鼠洞
+    void hitMoles();            // 判断是否击中地鼠
     void spawnMoles();          // 随机生成地鼠
     void hammerListener();      // 跟踪锤子
     float getDifficultyFactor();// 根据关卡等级和难度获得难度因子
 
 public:
-    game(unsigned short level, Difficulty diff); // 构造函数
-    ~game();                                     // 析构函数
-    void destory();                              // 关闭这局游戏
-    void startNewLevel();                        // 开始新关卡
-    void hitMole(unsigned int x, unsigned int y);// 击打地鼠
-    unsigned int getScore() const;               // 获取当前得分
-    unsigned short getLevel() const;             // 获取当前关卡等级
-    void increaseLevel();                        // 增加关卡等级
+    game(unsigned short level, Difficulty diff);// 构造函数
+    ~game();                                    // 析构函数
+    void destory();                             // 关闭这局游戏
+    void startNewLevel();                       // 开始新关卡
+    unsigned int getScore() const;              // 获取当前得分
+    unsigned short getLevel() const;            // 获取当前关卡等级
+    void increaseLevel();                       // 增加关卡等级
 };
 
 
