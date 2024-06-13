@@ -13,7 +13,8 @@ void game::delay(int milliseconds) {
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
-game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), time(10), moles(0), destroyed(false) {
+IMAGE tmp;
+game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), moles(0), destroyed(false) {
     // 加载图片资源
     initResource();
 
@@ -97,6 +98,7 @@ void game::spawnMoles() {
         for (auto &row: holes) {
             for (auto &hole: row) {
                 if (rand() < (int) (getDifficultyFactor() * 100.0F)) {
+                    debug("show mole");
                     hole.mole.show();
                 }
             }
@@ -164,6 +166,37 @@ void game::hammerListener() {
 // 顶部数据显示
 void game::scoreListener() {
     while (!destroyed) {
+        switch(this->difficulty) {
+            case EASY: {
+                settextstyle(30, 0, "楷体");
+                settextcolor(BLACK);
+                outtextxy(160, 130, "简单");
+            }
+            case NORMAL: {
+                settextstyle(30, 0, "楷体");
+                settextcolor(BLACK);
+                outtextxy(160, 130, "普通");
+            }
+            case HARD:{
+                settextstyle(30, 0, "楷体");
+                settextcolor(BLACK);
+                outtextxy(160, 130, "困难");
+            }
+            // 输出当前关卡
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 10, this->level);
+            // 输出当前得分
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 50, this->moles);
+            // 输出当前得分
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 90, this->score);
+
+        }
+
         // 每隔100ms刷新一次
         delay(100);
     }

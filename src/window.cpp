@@ -10,6 +10,15 @@
 #include "resource.h"
 #include "sound.h"
 #include "vector"
+// 全局变量，记录当前的音量值
+int volume = 50;// 初始音量值（0-100）
+// 全局变量 ，用于设置中的刷新
+IMAGE tmp;
+IMAGE tmp_1;
+IMAGE tmp_2;
+// 全局变量，用于记录当前难度，默认难度为简单
+Difficulty difficulty=EASY;
+
 
 
 void drawButton(int x, int y, int width, int height, COLORREF color, const char *text, int textHeight, COLORREF textColor) {
@@ -82,11 +91,6 @@ void init_main_graph() {
     // 返回按钮点击监听线程
     main_listener();
 }
-
-IMAGE tmp;
-IMAGE tmp_1;
-IMAGE tmp_2;
-IMAGE tmp_3;
 void settings_listener() {
     MOUSEMSG m;// 定义消息变量
     int x, y;
@@ -110,6 +114,7 @@ void settings_listener() {
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "简单");
+                    difficulty=EASY;
                     break;
                 } else if (x >= 50 && x <= 250 && y >= 300 && y <= 350) {
                     // 普通模式
@@ -117,6 +122,7 @@ void settings_listener() {
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "普通");
+                    difficulty=NORMAL;
                     break;
                 } else if (x >= 50 && x <= 250 && y >= 400 && y <= 450) {
                     // 困难模式
@@ -124,6 +130,7 @@ void settings_listener() {
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "困难");
+                    difficulty=HARD;
                     break;
                 } else if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
                     init_main_graph();// 返回主界面
@@ -164,8 +171,6 @@ void settings_listener() {
     }
 }
 
-// 全局变量，记录当前的音量值
-int volume = 50;// 初始音量值（0-100）
 
 // 绘制音量调节界面
 void drawVolumeControl() {
@@ -229,9 +234,24 @@ void init_settings_graph() {
     settextcolor(BLACK);
     outtextxy(25, 100, "游戏难度:");
     // 默认难度为简单
-    settextstyle(30, 0, "楷体");
-    settextcolor(BLACK);
-    outtextxy(160, 100, "简单");
+    switch(difficulty) {
+        case EASY: {
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 100, "简单");
+        }
+        case NORMAL: {
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 100, "普通");
+        }
+        case HARD: {
+            settextstyle(30, 0, "楷体");
+            settextcolor(BLACK);
+            outtextxy(160, 100, "困难");
+        }
+    }
+
     // 绘制难度按钮
     settextstyle(20, 10, "楷体");
     rectangle(50, 200, 250, 250);
@@ -269,10 +289,10 @@ void init_settings_graph() {
     outtextxy(350, 240, "800×600");
     //1280*720模块
     rectangle(500, 230, 670, 280);
-    outtextxy(540, 240, "1200×900");
+    outtextxy(540, 240, "1600×1200");
     // 1920×1080模块
     rectangle(500, 150, 670, 200);
-    outtextxy(540, 160, "1600×1200");
+    outtextxy(540, 160, "1200×900");
 
 
     // 音量设置
@@ -316,21 +336,22 @@ void init_game_graph() {
     putimage(0, 0, &img);
     // 加载当前关卡，得分，过关分数
     // 当前关卡
-    settextcolor(BLACK);
+    settextcolor(WHITE);
     settextstyle(30, 0, _T("楷体"));
     outtextxy(10, 10, "当前关卡:");
     // 过关分数
-    settextcolor(BLACK);
     settextstyle(30, 0, _T("楷体"));
-    outtextxy(10, 50, "过关分数:");
+    outtextxy(10, 50, "地鼠数:");
     // 当前得分
-    settextcolor(BLACK);
     settextstyle(30, 0, _T("楷体"));
     outtextxy(10, 90, "当前分数:");
+    // 当前难度
+    settextstyle(30, 0, _T("楷体"));
+    outtextxy(10, 130, "当前难度:");
     // 绘制返回按键
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 开始关卡
-    game game(8, HARD);
+    game game(1, difficulty);
 
     // 返回按钮点击监听线程
     game_listener(&game);
