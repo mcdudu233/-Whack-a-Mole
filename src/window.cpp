@@ -339,7 +339,7 @@ void init_game_graph() {
     outtextxy(10, 10, "当前关卡:");
     // 过关分数
     settextstyle(30, 0, _T("楷体"));
-    outtextxy(10, 50, "地鼠数:");
+    outtextxy(10, 50, "剩余时间:");
     // 当前得分
     settextstyle(30, 0, _T("楷体"));
     outtextxy(10, 90, "当前分数:");

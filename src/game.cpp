@@ -187,10 +187,10 @@ void game::scoreListener() {
                 settextstyle(30, 0, "楷体");
                 settextcolor(BLACK);
                 outtextxy(160, 10, std::to_string(this->level).c_str());
-                // 输出当前得分
+                // 输出剩余时间
                 settextstyle(30, 0, "楷体");
                 settextcolor(BLACK);
-                outtextxy(160, 50, std::to_string(this->moles).c_str());
+                outtextxy(160, 50, std::to_string(this->time).c_str());
                 // 输出当前得分
                 settextstyle(30, 0, "楷体");
                 settextcolor(BLACK);
