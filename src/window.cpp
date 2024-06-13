@@ -81,6 +81,8 @@ void init_main_graph() {
 }
 
 IMAGE tmp;
+IMAGE tmp_1;
+IMAGE tmp_2;
 void settings_listener() {
     MOUSEMSG m;		// 定义消息变量
     int x, y;
@@ -99,6 +101,7 @@ void settings_listener() {
             {
                 if(x>=50&&x<=250&&y>=200&&y<=250) {
                     // 简单模式
+                    putimage(160,100,&tmp_1);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "简单");
@@ -106,6 +109,7 @@ void settings_listener() {
                 }
                 else if(x>=50&&x<=250&&y>=300&&y<=350) {
                     // 普通模式
+                    putimage(160,100,&tmp_1);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "普通");
@@ -113,6 +117,7 @@ void settings_listener() {
                 }
                 else if(x>=50&&x<=250&&y>=400&&y<=450) {
                     // 困难模式
+                    putimage(160,100,&tmp_1);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "困难");
@@ -121,28 +126,31 @@ void settings_listener() {
                     init_main_graph(); // 返回主界面
                     break;
                 }else if(x>=310&&x<=480&&y>=150&&y<=230) {
+                    putimage(480,100,&tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(480, 100, "800×600");
-                    init_graph(800,600);
+
                     break;
                 }else if(x>=310&&x<=480&&y>=230&&y<=280) {
+                    putimage(480,100,&tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(480, 100, "1280×720");
-                    init_graph(1280,720);
                     break;
                 }else if(x>=500&&x<=670&&y>=150&&y<=200) {
+                    putimage(480,100,&tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(480, 100, "1020×768");
-                    init_graph(1020,768);
+
                     break;
                 }else if(x>=500&&x<=670&&y>=230&&y<=280) {
+                    putimage(480,100,&tmp_2);
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(480, 100, "1920×1080");
-                    init_graph(1920,1080);
+
                     break;
                 }
             }
@@ -203,11 +211,17 @@ void init_settings_graph() {
     cleardevice();
     // 加载设置图片
     IMAGE img;
-    loadimage(&img, getPic("main").c_str(), 800, 600);
+    loadimage(&img, getPic("game").c_str(), 800, 600);
     putimage(0, 0, &img);
     getimage(&tmp,350,360,400,150);
+    getimage(&tmp_1,160,100,100,50);
+    getimage(&tmp_2,480,100,200,50);
+    // 包围框
+    setcolor(WHITE);
+    rectangle(10,5,790,590);
     // TODO xb：做完以下内容以后删掉本行
     // 设置标题
+    settextcolor(BLACK);
     settextstyle(30, 0, _T("楷体"));
     RECT r = {0, 0, 800, 50};
     drawtext(_T("设置"), &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -222,7 +236,7 @@ void init_settings_graph() {
     rectangle(50, 200, 250, 250);
     outtextxy(120, 215, "简单");
     rectangle(50, 300, 250, 350);
-    outtextxy(120, 315, "中等");
+    outtextxy(120, 315, "普通");
 
     rectangle(50, 400, 250, 450);
     outtextxy(120, 415, "困难");
