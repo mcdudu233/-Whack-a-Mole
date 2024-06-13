@@ -253,14 +253,14 @@ void init_settings_graph() {
     outtextxy(310, 100, "分辨率选择:");
     settextstyle(30, 0, "楷体");
     // 读取当前分辨率
-    int width = getwidth(); // 获取窗口宽度
-    int height = getheight(); // 获取窗口高度
+    int width = getwidth();  // 获取窗口宽度
+    int height = getheight();// 获取窗口高度
     // 输出窗口大小
     char text[50];
     sprintf(text, "%d×", width);
-    outtextxy(480, 100, text); // 在 (48, 100) 的位置输出宽度信息
+    outtextxy(480, 100, text);// 在 (48, 100) 的位置输出宽度信息
     sprintf(text, "%d", height);
-    outtextxy(560, 100, text); // 在 (560, 100) 的位置输出高度信息
+    outtextxy(560, 100, text);// 在 (560, 100) 的位置输出高度信息
     settextcolor(BLACK);
 
 
@@ -295,14 +295,12 @@ void game_listener() {
         x = m.x;
         y = m.y;
         // TODO 监听游戏中的鼠标事件
-        switch(m.uMsg) {
-            case WM_LBUTTONDOWN: {  //  左键单击
+        switch (m.uMsg) {
+            case WM_LBUTTONDOWN: {//  左键单击
                 if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
                     init_main_graph();// 返回主界面
                 }
-
             }
-
         }
     }
 }
@@ -321,22 +319,22 @@ void init_game_graph() {
     IMAGE img;
     loadimage(&img, getPic("game").c_str(), 800, 600);
     putimage(0, 0, &img);
-    game g(1, HARD);
     // 加载当前关卡，得分，过关分数
     // 当前关卡
     settextcolor(BLACK);
     settextstyle(30, 0, _T("楷体"));
-    outtextxy(10,10,"当前关卡:");
+    outtextxy(10, 10, "当前关卡:");
     // 过关分数
     settextcolor(BLACK);
     settextstyle(30, 0, _T("楷体"));
-    outtextxy(10,50,"过关分数:");
+    outtextxy(10, 50, "过关分数:");
     // 当前得分
     settextcolor(BLACK);
     settextstyle(30, 0, _T("楷体"));
-    outtextxy(10,90,"当前分数:");
+    outtextxy(10, 90, "当前分数:");
     // 绘制返回按键
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
+    // 开始关卡
     game game(20, HARD);
     // 返回按钮点击监听线程
     game_listener();

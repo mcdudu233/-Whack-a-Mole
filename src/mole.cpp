@@ -41,6 +41,10 @@ bool mole::show() {
     return true;
 }
 
+bool mole::isHited(int x, int y) {
+    return false;
+}
+
 bool mole::isShowed() {
     return this->visible;
 }
