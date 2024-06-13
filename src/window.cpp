@@ -43,10 +43,10 @@ void main_listener() {
     int x, y;
     while (true) {
         m = GetMouseMsg();
-        int width=getwidth();
-        int height=getheight();
-        x = ((m.x)*800)/width;
-        y = ((m.y)*600)/height;
+        int width = getwidth();
+        int height = getheight();
+        x = ((m.x) * 800) / width;
+        y = ((m.y) * 600) / height;
         if (m.mkLButton || m.mkMButton || m.mkRButton) {
             if (x >= BUTTON_MAIN_STARTGAME_X && x <= BUTTON_MAIN_STARTGAME_XX && y >= BUTTON_MAIN_STARTGAME_Y && y <= BUTTON_MAIN_STARTGAME_YY) {
                 debug("start button is clicked.");
@@ -92,10 +92,10 @@ void settings_listener() {
     while (true) {
         // 获取一条鼠标或按键消息
         m = GetMouseMsg();
-        int width=getwidth();
-        int height=getheight();
-        x = ((m.x)*800)/width;
-        y = ((m.y)*600)/height;
+        int width = getwidth();
+        int height = getheight();
+        x = ((m.x) * 800) / width;
+        y = ((m.y) * 600) / height;
         // 函数声明
         void drawOptionsList(int startX, int startY, int width, int height);
         void drawVolumeControl();
@@ -216,7 +216,6 @@ void init_settings_graph() {
     // 包围框
     setcolor(WHITE);
     rectangle(10, 5, 790, 590);
-    // TODO xb：做完以下内容以后删掉本行
     // 设置标题
     settextcolor(BLACK);
     settextstyle(30, 0, _T("楷体"));
@@ -289,14 +288,12 @@ void game_listener(game *game) {
         m = GetMouseMsg();
         x = m.x;
         y = m.y;
-        // TODO 监听游戏中的鼠标事件
-
-
-
+        // 监听游戏中的鼠标事件
         switch (m.uMsg) {
             case WM_LBUTTONDOWN: {//  左键单击
                 if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
                     // 销毁游戏
+                    game->destory();
                     delete game;
                     init_main_graph();// 返回主界面
                 }
@@ -335,7 +332,7 @@ void init_game_graph() {
     // 绘制返回按键
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 开始关卡
-    game game(1, HARD);
+    game game(8, HARD);
 
     // 返回按钮点击监听线程
     game_listener(&game);
