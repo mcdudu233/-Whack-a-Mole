@@ -14,22 +14,22 @@ void game::delay(int milliseconds) {
 }
 
 IMAGE tmp;
-game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), moles(0), destroyed(false) {
-    // åŠ è½½å›¾ç‰‡èµ„æº
+game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), time(10), moles(0), destroyed(false) {
+    // ¼ÓÔØÍ¼Æ¬×ÊÔ´
     initResource();
 
-    // ç”Ÿæˆåœ°é¼ æ´žå’Œåœ°é¼ 
+    // Éú³ÉµØÊó¶´ºÍµØÊó
     spawnHoles();
     moleThread = new std::thread(&game::spawnMoles, this);
     hitThread = new std::thread(&game::hitListener, this);
 
-    // è·Ÿè¸ªé”¤å­
+    // ¸ú×Ù´¸×Ó
     hammerThread = new std::thread(&game::hammerListener, this);
 
-    // æ•°æ®åˆ·æ–°
+    // Êý¾ÝË¢ÐÂ
     scoreThread = new std::thread(&game::scoreListener, this);
 
-    // å…³å¡ç»“æŸ
+    // ¹Ø¿¨½áÊø
     endThread = new std::thread(&game::endListener, this);
 }
 
@@ -37,7 +37,7 @@ game::~game() {
     destroy();
 }
 
-// æ ¹æ®å…³å¡ç­‰çº§å’Œéš¾åº¦èŽ·å¾—éš¾åº¦å› å­
+// ¸ù¾Ý¹Ø¿¨µÈ¼¶ºÍÄÑ¶È»ñµÃÄÑ¶ÈÒò×Ó
 float game::getDifficultyFactor() {
     float factor = this->level;
     if (factor > 100) {
@@ -67,10 +67,10 @@ float game::getDifficultyFactor() {
     }
 }
 
-// åˆå§‹åŒ–åœ°é¼ æ´ž
+// ³õÊ¼»¯µØÊó¶´
 void game::spawnHoles() {
-    float diff = getDifficultyFactor();// èŽ·å–éš¾åº¦å› å­
-    // æ ¹æ®éš¾åº¦è®¡ç®—è¡Œåˆ—
+    float diff = getDifficultyFactor();// »ñÈ¡ÄÑ¶ÈÒò×Ó
+    // ¸ù¾ÝÄÑ¶È¼ÆËãÐÐÁÐ
     unsigned int rows = 1 + (int) (diff / 5.0F);
     unsigned int cols = rows;
     unsigned int gapX = 40;
@@ -90,7 +90,7 @@ void game::spawnHoles() {
     }
 }
 
-// éšæœºç”Ÿæˆåœ°é¼ 
+// Ëæ»úÉú³ÉµØÊó
 void game::spawnMoles() {
     MOUSEMSG m;
     int x, y;
@@ -107,7 +107,7 @@ void game::spawnMoles() {
     }
 }
 
-// éšæœºç”Ÿæˆåœ°é¼ 
+// Ëæ»úÉú³ÉµØÊó
 void game::hitListener() {
     MOUSEMSG m;
     int x, y;
@@ -123,7 +123,7 @@ void game::hitListener() {
             for (auto &hole: row) {
                 if (m.mkLButton && hole.mole.isHited(x, y)) {
                     debug("mole hited, now score:" + std::to_string(this->score));
-                    // æ¯å‡»ä¸­ä¸€ä¸ªåœ°é¼ å¾—5åˆ†
+                    // Ã¿»÷ÖÐÒ»¸öµØÊóµÃ5·Ö
                     score += 5;
                 }
             }
@@ -131,7 +131,7 @@ void game::hitListener() {
     }
 }
 
-// ç›‘å¬é”¤å­ä½ç½®
+// ¼àÌý´¸×ÓÎ»ÖÃ
 void game::hammerListener() {
     IMAGE *tmp;
     MOUSEMSG m;
@@ -143,17 +143,17 @@ void game::hammerListener() {
         x = ((m.x) * 800) / width - 50;
         y = ((m.y) * 600) / height - 50;
 
-        // è¿˜åŽŸä¹‹å‰çš„çŠ¶æ€
+        // »¹Ô­Ö®Ç°µÄ×´Ì¬
         if (tmp == nullptr) {
             tmp = new IMAGE;
         } else {
             putimage(last_x, last_y, tmp);
         }
-        // ä¿å­˜ä¹‹å‰çš„çŠ¶æ€
+        // ±£´æÖ®Ç°µÄ×´Ì¬
         getimage(tmp, x, y, 100, 100);
         last_x = x;
         last_y = y;
-        // æ”¾ç½®é”¤å­
+        // ·ÅÖÃ´¸×Ó
         if (m.mkLButton) {
             debug("hammer down.");
             putImage(x, y, IMG_HAMMER_DOWN);
@@ -163,54 +163,53 @@ void game::hammerListener() {
     }
 }
 
-// é¡¶éƒ¨æ•°æ®æ˜¾ç¤º
+// ¶¥²¿Êý¾ÝÏÔÊ¾
 void game::scoreListener() {
     while (!destroyed) {
-        switch(this->difficulty) {
+        switch (this->difficulty) {
             case EASY: {
-                settextstyle(30, 0, "æ¥·ä½“");
+                settextstyle(30, 0, "¿¬Ìå");
                 settextcolor(BLACK);
-                outtextxy(160, 130, "ç®€å•");
+                outtextxy(160, 130, "¼òµ¥");
             }
             case NORMAL: {
-                settextstyle(30, 0, "æ¥·ä½“");
+                settextstyle(30, 0, "¿¬Ìå");
                 settextcolor(BLACK);
-                outtextxy(160, 130, "æ™®é€š");
+                outtextxy(160, 130, "ÆÕÍ¨");
             }
-            case HARD:{
-                settextstyle(30, 0, "æ¥·ä½“");
+            case HARD: {
+                settextstyle(30, 0, "¿¬Ìå");
                 settextcolor(BLACK);
-                outtextxy(160, 130, "å›°éš¾");
+                outtextxy(160, 130, "À§ÄÑ");
             }
-            // è¾“å‡ºå½“å‰å…³å¡
-            settextstyle(30, 0, "æ¥·ä½“");
-            settextcolor(BLACK);
-            outtextxy(160, 10, this->level);
-            // è¾“å‡ºå½“å‰å¾—åˆ†
-            settextstyle(30, 0, "æ¥·ä½“");
-            settextcolor(BLACK);
-            outtextxy(160, 50, this->moles);
-            // è¾“å‡ºå½“å‰å¾—åˆ†
-            settextstyle(30, 0, "æ¥·ä½“");
-            settextcolor(BLACK);
-            outtextxy(160, 90, this->score);
-
+                // Êä³öµ±Ç°¹Ø¿¨
+                settextstyle(30, 0, "¿¬Ìå");
+                settextcolor(BLACK);
+                outtextxy(160, 10, std::to_string(this->level).c_str());
+                // Êä³öµ±Ç°µÃ·Ö
+                settextstyle(30, 0, "¿¬Ìå");
+                settextcolor(BLACK);
+                outtextxy(160, 50, std::to_string(this->moles).c_str());
+                // Êä³öµ±Ç°µÃ·Ö
+                settextstyle(30, 0, "¿¬Ìå");
+                settextcolor(BLACK);
+                outtextxy(160, 90, std::to_string(this->score).c_str());
         }
 
-        // æ¯éš”100msåˆ·æ–°ä¸€æ¬¡
+        // Ã¿¸ô100msË¢ÐÂÒ»´Î
         delay(100);
     }
 }
 
-// æ¸¸æˆæ—¶é—´
+// ÓÎÏ·Ê±¼ä
 void game::endListener() {
     while (!destroyed) {
-        // æ¯1sæ£€æµ‹ä¸€æ¬¡
+        // Ã¿1s¼ì²âÒ»´Î
         delay(1000);
         this->time--;
         debug("now time:" + std::to_string(this->time));
         if (time == 0) {
-            // æœ¬å…³ç»“æŸäº†
+            // ±¾¹Ø½áÊøÁË
             debug("level: " + std::to_string(this->level) + "ended");
             destroy();
             new game(++this->level, this->difficulty);
@@ -219,23 +218,23 @@ void game::endListener() {
     }
 }
 
-// å¼€å§‹æ–°å…³å¡
+// ¿ªÊ¼ÐÂ¹Ø¿¨
 void game::startNewLevel() {
     increaseLevel();
     spawnMoles();
 }
 
-// èŽ·å–å½“å‰å¾—åˆ†
+// »ñÈ¡µ±Ç°µÃ·Ö
 unsigned int game::getScore() const {
     return score;
 }
 
-// èŽ·å–å½“å‰å…³å¡ç­‰çº§
+// »ñÈ¡µ±Ç°¹Ø¿¨µÈ¼¶
 unsigned short game::getLevel() const {
     return level;
 }
 
-// å¢žåŠ å…³å¡ç­‰çº§
+// Ôö¼Ó¹Ø¿¨µÈ¼¶
 void game::increaseLevel() {
     ++level;
 }
@@ -247,7 +246,7 @@ void game::destroy() {
             hole.mole.destroy();
         }
     }
-    // ç­‰å¾…æ‰€æœ‰çº¿ç¨‹ç»“æŸ
+    // µÈ´ýËùÓÐÏß³Ì½áÊø
     moleThread->join();
     hitThread->join();
     hammerThread->join();

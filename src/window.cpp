@@ -13,12 +13,11 @@
 // 全局变量，记录当前的音量值
 int volume = 50;// 初始音量值（0-100）
 // 全局变量 ，用于设置中的刷新
-IMAGE tmp;
+IMAGE tmp_0;
 IMAGE tmp_1;
 IMAGE tmp_2;
 // 全局变量，用于记录当前难度，默认难度为简单
-Difficulty difficulty=EASY;
-
+Difficulty difficulty = HARD;
 
 
 void drawButton(int x, int y, int width, int height, COLORREF color, const char *text, int textHeight, COLORREF textColor) {
@@ -56,7 +55,6 @@ void main_listener() {
         int height = getheight();
         x = ((m.x) * 800) / width;
         y = ((m.y) * 600) / height;
-        debug("test");
         if (m.mkLButton || m.mkMButton || m.mkRButton) {
             if (x >= BUTTON_MAIN_STARTGAME_X && x <= BUTTON_MAIN_STARTGAME_XX && y >= BUTTON_MAIN_STARTGAME_Y && y <= BUTTON_MAIN_STARTGAME_YY) {
                 debug("start button is clicked.");
@@ -114,7 +112,7 @@ void settings_listener() {
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "简单");
-                    difficulty=EASY;
+                    difficulty = EASY;
                     break;
                 } else if (x >= 50 && x <= 250 && y >= 300 && y <= 350) {
                     // 普通模式
@@ -122,7 +120,7 @@ void settings_listener() {
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "普通");
-                    difficulty=NORMAL;
+                    difficulty = NORMAL;
                     break;
                 } else if (x >= 50 && x <= 250 && y >= 400 && y <= 450) {
                     // 困难模式
@@ -130,7 +128,7 @@ void settings_listener() {
                     settextstyle(30, 0, "楷体");
                     settextcolor(BLACK);
                     outtextxy(160, 100, "困难");
-                    difficulty=HARD;
+                    difficulty = HARD;
                     break;
                 } else if (x >= 340 && x <= 780 && y >= 530 && y <= 580) {
                     init_main_graph();// 返回主界面
@@ -205,7 +203,7 @@ void handleMouseDrag(int x, int y) {
         if (x < 350) x = 350;
         if (x > 750) x = 750;
         volume = (x - 350) * 100 / 400;
-        putimage(350, 360, &tmp);
+        putimage(350, 360, &tmp_0);
     }
 }
 
@@ -216,7 +214,7 @@ void init_settings_graph() {
     IMAGE img;
     loadimage(&img, getPic("game").c_str(), 800, 600);
     putimage(0, 0, &img);
-    getimage(&tmp, 350, 360, 400, 150);
+    getimage(&tmp_0, 350, 360, 400, 150);
     getimage(&tmp_1, 160, 100, 100, 50);
     getimage(&tmp_2, 480, 100, 200, 50);
     // 包围框
@@ -234,7 +232,7 @@ void init_settings_graph() {
     settextcolor(BLACK);
     outtextxy(25, 100, "游戏难度:");
     // 默认难度为简单
-    switch(difficulty) {
+    switch (difficulty) {
         case EASY: {
             settextstyle(30, 0, "楷体");
             settextcolor(BLACK);
@@ -351,7 +349,7 @@ void init_game_graph() {
     // 绘制返回按键
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 开始关卡
-    game game(1, difficulty);
+    game game(8, difficulty);
 
     // 返回按钮点击监听线程
     game_listener(&game);
