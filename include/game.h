@@ -39,6 +39,7 @@ private:
     std::thread *endThread;
 
 private:
+    void initWindow();          //初始化计分板和其他
     void spawnHoles();          // 初始化地鼠洞
     void spawnMoles();          // 随机生成地鼠
     void hitListener();         // 判断是否击中地鼠

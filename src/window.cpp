@@ -3,13 +3,11 @@
 //
 
 #include "window.h"
-#include "conio.h"
 #include "debug.h"
 #include "game.h"
 #include "graphics.h"
 #include "resource.h"
 #include "sound.h"
-#include "vector"
 
 void delay(int milliseconds) {
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
@@ -348,29 +346,10 @@ void init_game_graph() {
     } else {
         playSound(GAMING2);
     }
-    // 加载游戏图片
-    IMAGE img;
-    loadimage(&img, getPic("game").c_str(), 800, 600);
-    putimage(0, 0, &img);
-    // 加载当前关卡，得分，过关分数
-    // 当前关卡
-    settextcolor(WHITE);
-    settextstyle(30, 0, _T("楷体"));
-    outtextxy(10, 10, "当前关卡:");
-    // 过关分数
-    settextstyle(30, 0, _T("楷体"));
-    outtextxy(10, 50, "剩余时间:");
-    // 当前得分
-    settextstyle(30, 0, _T("楷体"));
-    outtextxy(10, 90, "当前分数:");
-    // 当前难度
-    settextstyle(30, 0, _T("楷体"));
-    outtextxy(10, 130, "当前难度:");
     // 绘制返回按键
     drawButton(340, 530, 140, 50, BUTTON_MAIN_COLOR, "返回", 30, BUTTON_MAIN_TEXTCOLOR);
     // 开始关卡
-    game game(20, difficulty);
-
+    game game(1, difficulty);
     // 返回按钮点击监听线程
     game_listener(&game);
 }

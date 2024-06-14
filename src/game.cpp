@@ -11,6 +11,7 @@
 
 IMAGE tmp_4;
 game::game(unsigned short level, Difficulty diff) : level(level), difficulty(diff), score(0), time(10), moles(0), destroyed(false) {
+    initWindow();
     // 加载图片资源
     initResource();
     getimage(&tmp_4, 160, 0, 100, 120);
@@ -29,6 +30,27 @@ game::game(unsigned short level, Difficulty diff) : level(level), difficulty(dif
 
 game::~game() {
     destroy();
+}
+
+void initWindow() {
+    // 加载游戏图片
+    IMAGE img;
+    loadimage(&img, getPic("game").c_str(), 800, 600);
+    putimage(0, 0, &img);
+    // 加载当前关卡，得分，过关分数
+    // 当前关卡
+    settextcolor(WHITE);
+    settextstyle(30, 0, _T("楷体"));
+    outtextxy(10, 10, "当前关卡:");
+    // 过关分数
+    settextstyle(30, 0, _T("楷体"));
+    outtextxy(10, 50, "剩余时间:");
+    // 当前得分
+    settextstyle(30, 0, _T("楷体"));
+    outtextxy(10, 90, "当前分数:");
+    // 当前难度
+    settextstyle(30, 0, _T("楷体"));
+    outtextxy(10, 130, "当前难度:");
 }
 
 // 根据关卡等级和难度获得难度因子
@@ -240,10 +262,17 @@ void game::destroy() {
             hole.mole.destroy();
         }
     }
-    // 等待所有线程结束
-    moleThread->join();
-    hitThread->join();
-    hammerThread->join();
-    scoreThread->join();
-    endThread->join();
+    // 等待所有线程结束 除了endThread
+    if (moleThread && moleThread->joinable()) {
+        moleThread->join();
+    }
+    if (hitThread && hitThread->joinable()) {
+        hitThread->join();
+    }
+    if (hammerThread && hammerThread->joinable()) {
+        hammerThread->join();
+    }
+    if (scoreThread && scoreThread->joinable()) {
+        scoreThread->join();
+    }
 }
