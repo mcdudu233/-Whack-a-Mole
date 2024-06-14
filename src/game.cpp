@@ -32,7 +32,7 @@ game::~game() {
     destroy();
 }
 
-void initWindow() {
+void game::initWindow() {
     // 加载游戏图片
     IMAGE img;
     loadimage(&img, getPic("game").c_str(), 800, 600);
@@ -114,7 +114,6 @@ void game::spawnMoles() {
         for (auto &row: holes) {
             for (auto &hole: row) {
                 if (rand() < (int) (getDifficultyFactor() * 100.0F)) {
-                    debug("show mole");
                     hole.mole.show();
                 }
             }
@@ -226,7 +225,7 @@ void game::endListener() {
         debug("now time:" + std::to_string(this->time));
         if (time == 0) {
             // 本关结束了
-            debug("level: " + std::to_string(this->level) + "ended");
+            debug("level: " + std::to_string(this->level) + " ended");
             destroy();
             new game(++this->level, this->difficulty);
             break;
