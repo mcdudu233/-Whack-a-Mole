@@ -9,11 +9,13 @@
 #include "string"
 
 // 图片文件夹和后缀
-#define RES_PIC "../res/pics/"
+#define RES_PIC "./res/pics/"
+#define RES_PIC_BAK "../res/pics/"
 #define RES_PIC_JPG ".jpg"
 #define RES_PIC_PNG ".png"
 // 音频文件夹和后缀
-#define RES_SOUND "../res/sounds/"
+#define RES_SOUND "./res/sounds/"
+#define RES_SOUND_BAK "../res/sounds/"
 #define RES_SOUND_SUF ".mp3"
 
 // 所有图片资源

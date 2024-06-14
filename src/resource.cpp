@@ -3,6 +3,8 @@
 //
 
 #include "resource.h"
+#include "debug.h"
+#include "filesystem"
 
 // 所有图片资源
 IMAGE IMG_HOLE;
@@ -14,7 +16,21 @@ IMAGE IMG_MOLE3;
 IMAGE IMG_MOLE4;
 IMAGE IMG_MOLE5;
 
+// 使用的路径
+std::string path_pic;
+std::string path_sound;
+
 void initResource() {
+    if (std::filesystem::exists(RES_PIC)) {
+        path_pic = RES_PIC;
+        path_sound = RES_SOUND;
+        debug("path ./res/pics/ exists.");
+    } else {
+        path_pic = RES_PIC_BAK;
+        path_sound = RES_SOUND_BAK;
+        debug("path ./res/pics/ not exists, using ../res/pics/ .");
+    }
+
     // 加载所需图片
     loadimage(&IMG_HOLE, getPicPNG("hole").c_str(), 100, 50);
     loadimage(&IMG_HAMMER, getPicPNG("hammer").c_str(), 100, 100);
@@ -31,17 +47,17 @@ std::string getPic(std::string name) {
 }
 
 std::string getPicJPG(std::string name) {
-    std::string file = RES_PIC + name + RES_PIC_JPG;
+    std::string file = path_pic + name + RES_PIC_JPG;
     return file;
 }
 
 std::string getPicPNG(std::string name) {
-    std::string file = RES_PIC + name + RES_PIC_PNG;
+    std::string file = path_pic + name + RES_PIC_PNG;
     return file;
 }
 
 std::string getSound(std::string name) {
-    std::string file = RES_SOUND + name + RES_SOUND_SUF;
+    std::string file = path_sound + name + RES_SOUND_SUF;
     return file;
 }
 
