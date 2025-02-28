@@ -10,5 +10,5 @@ include_directories(include)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 add_executable(Whack_a_Mole ${SRC} ${INCLUDE})
 
-target_link_libraries(Whack_a_Mole easyx)
+target_link_libraries(Whack_a_Mole libeasyx.a)
 target_link_libraries(Whack_a_Mole winmm)
