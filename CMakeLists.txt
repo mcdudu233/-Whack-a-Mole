@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.28)
 project(Whack_a_Mole)
 
 set(CMAKE_CXX_STANDARD 17)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_BUILD_TYPE Release)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build)
 aux_source_directory(src SRC)
 aux_source_directory(include INCLUDE)
 

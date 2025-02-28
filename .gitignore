@@ -1,5 +1,7 @@
 .idea
 .idea/
+build
+build/
 cmake-build-debug
 cmake-build-debug/
 bin/Whack_a_Mole.exe
