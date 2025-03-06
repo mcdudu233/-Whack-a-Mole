@@ -1,5 +1,7 @@
 ## 基于EasyX的打地鼠小游戏
 
+![](https://oss.mcso.top/wordpress/2025/03/20250306020529188.png?x-oss-process=image/watermark,text_bWNzby50b3A,color_FFFFFF,size_20,shadow_50)
+
 ---
 
 ### 程序介绍
